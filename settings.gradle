@@ -1,1 +1,1 @@
-include ':app',':TabBarlibrary',':SystemBarlibrary'
+include ':app',':TabBarlibrary',':SystemBarlibrary',':TVlibrary',':imagepickerModule'

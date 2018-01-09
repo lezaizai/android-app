@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.didlink.tabbarlib.TabbarsIndicator;
 import com.didlink.xingxing.mediacontent.data.ContentDataLoadTask;
-import com.didlink.xingxing.security.LoginAuth;
+import com.didlink.xingxing.models.LoginAuth;
 import com.didlink.xingxing.security.LoginService;
 import com.didlink.xingxing.service.JmdnsService;
 import com.didlink.xingxing.service.UploadHandlerThread;

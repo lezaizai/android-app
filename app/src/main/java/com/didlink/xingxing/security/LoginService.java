@@ -2,10 +2,9 @@ package com.didlink.xingxing.security;
 
 import android.util.Log;
 
+import com.didlink.xingxing.models.LoginAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;

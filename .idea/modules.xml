@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SystemBarlibrary/SystemBarlibrary.iml" filepath="$PROJECT_DIR$/SystemBarlibrary/SystemBarlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TVlibrary/TVlibrary.iml" filepath="$PROJECT_DIR$/TVlibrary/TVlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/TabBarlibrary/TabBarlibrary.iml" filepath="$PROJECT_DIR$/TabBarlibrary/TabBarlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagepickerModule/imagepickerModule.iml" filepath="$PROJECT_DIR$/imagepickerModule/imagepickerModule.iml" />
       <module fileurl="file://$PROJECT_DIR$/xingxing.iml" filepath="$PROJECT_DIR$/xingxing.iml" />
     </modules>
   </component>

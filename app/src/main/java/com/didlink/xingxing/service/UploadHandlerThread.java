@@ -10,7 +10,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.didlink.xingxing.AppSingleton;
-import com.didlink.xingxing.security.LoginAuth;
+import com.didlink.xingxing.models.LoginAuth;
 import com.didlink.xingxing.security.LoginService;
 
 import java.io.File;

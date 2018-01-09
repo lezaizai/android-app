@@ -1,15 +1,13 @@
 package com.didlink.xingxing;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.didlink.systembar.Base.BaseActivity;
 import com.didlink.systembar.Tools.StatusBarManager;
 import com.didlink.tabbarlib.TabbarsIndicator;
 import com.didlink.xingxing.security.ILoginListener;
-import com.didlink.xingxing.security.LoginAuth;
-import com.didlink.xingxing.service.IJmdnsServiceListener;
+import com.didlink.xingxing.models.LoginAuth;
 
 public class MainActivity extends BaseActivity {
 

@@ -63,6 +63,14 @@
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
+
+    <string name="button_login">Logon/Register</string>
+    <string name="button_logout">Logout</string>
+    <string name="button_changeavator">Change Avator</string>
+
+
+
+
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 

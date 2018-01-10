@@ -17,6 +17,8 @@ public class Contact extends RealmObject {
     private String socketid;
     private String streamid;
 
+    public Contact(){}
+
     public Contact(String uid, String username, String nickname) {
         this.uid = uid;
         this.username = username;

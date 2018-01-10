@@ -24,6 +24,8 @@ public class Channel extends RealmObject {
     private RealmList<Contact> contacts;
     private int contacts_num;
 
+    public Channel(){}
+
     public Channel(String chid, int type, String name) {
         this.chid = chid;
         this.type = type;

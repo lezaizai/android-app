@@ -12,12 +12,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.lezaizai.disneyfans.DsnApplication;
-import com.lezaizai.disneyfans.R;
-import com.lezaizai.disneyfans.auth.LoginActivity;
-import com.lezaizai.disneyfans.config.Channel;
-import com.lezaizai.disneyfans.config.Constants;
-import com.lezaizai.disneyfans.config.Contact;
+import com.didlink.xingxing.config.Constants;
+import com.didlink.xingxing.models.Channel;
+import com.didlink.xingxing.models.Contact;
 
 import org.json.JSONArray;
 import org.json.JSONException;

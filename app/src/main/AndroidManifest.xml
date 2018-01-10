@@ -27,6 +27,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.didlink.xingxing.activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
+
     </application>
 
 </manifest>

@@ -9,6 +9,10 @@
     <string name="processing_sign">Authenticating...</string>
     <string name="prompt_login">#Mobile/@Email</string>
     <string name="prompt_password">Password</string>
+    <string name="error_phone_email">Not valid Mobile# or Email address</string>
+    <string name="error_password_format">between 4 and 20 alphanumeric characters</string>
+    <string name="title_login">Login</string>
+    <string name="error_login_auth">Failed authentication. Invalid username or password.</string>
 
     <string name="error_field_required">This field is required</string>
 </resources>

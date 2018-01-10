@@ -6,27 +6,9 @@ import android.util.Log;
 import com.didlink.systembar.Base.BaseActivity;
 import com.didlink.systembar.Tools.StatusBarManager;
 import com.didlink.tabbarlib.TabbarsIndicator;
-import com.didlink.xingxing.security.ILoginListener;
-import com.didlink.xingxing.models.LoginAuth;
 
 public class MainActivity extends BaseActivity {
-
-    private ILoginListener loginListener = new ILoginListener() {
-        @Override
-        public void loginResponse(LoginAuth auth) {
-            Log.e("BaseActivity", "Login token" + auth.getToken());
-            AppSingleton.getInstance().getLoginAuth().setToken(auth.getToken());
-        }
-    };
-
-//    private IJmdnsServiceListener jmdnsServiceListener = new IJmdnsServiceListener() {
-//        @Override
-//        public void findService(String baseurl) {
-//            Log.e("BaseActivity", "Found service: " + baseurl);
-//            AppSingleton.getInstance().getLoginAuth().setBaseurl(baseurl);
-//            AppSingleton.getInstance().doLogin();
-//        }
-//    };
+    public static final String TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +36,8 @@ public class MainActivity extends BaseActivity {
         tabbarsIndicator.getTabView(3).showPoint();
         AppSingleton.getInstance().setTabbarsIndicator(tabbarsIndicator);
 
-        AppSingleton.getInstance().getLoginService().setLoginListener(loginListener);
         //startLoadData();
-        //AppSingleton.getInstance().getJmdnsService().setJmdnsServiceListener(jmdnsServiceListener);
-        //AppSingleton.getInstance().getJmdnsService().setContext(getApplicationContext());
+        Log.d(TAG, "Main Activity started!");
     }
 
     @Override

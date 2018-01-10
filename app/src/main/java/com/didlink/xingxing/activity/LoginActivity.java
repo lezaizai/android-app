@@ -17,17 +17,14 @@ import android.widget.Toast;
 
 
 import com.didlink.xingxing.AppSingleton;
+import com.didlink.xingxing.R;
 import com.didlink.xingxing.config.Constants;
 import com.didlink.xingxing.models.LoginAuth;
 import com.didlink.xingxing.security.ILoginListener;
 import com.didlink.xingxing.security.LoginService;
-import com.didlink.xingxing.service.RealmDBChannelService;
+import com.didlink.xingxing.service.RealmDBService;
 
 import dmax.dialog.SpotsDialog;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
@@ -154,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void run() {
                                 // On complete call either onLoginSuccess or onLoginFailed
                                 AppSingleton.getInstance().setLoginAuth(auth);
-                                RealmDBChannelService.saveAuth(auth);
+                                AppSingleton.getInstance().getmRealmDBService().saveAuth(auth);
                                 signInButton.setEnabled(true);
                                 signInCancel.setEnabled(true);
                                 // onLoginFailed();

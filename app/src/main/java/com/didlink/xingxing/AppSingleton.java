@@ -7,6 +7,7 @@ import com.didlink.xingxing.mediacontent.data.ContentDataLoadTask;
 import com.didlink.xingxing.models.LoginAuth;
 import com.didlink.xingxing.security.LoginService;
 import com.didlink.xingxing.service.JmdnsService;
+import com.didlink.xingxing.service.RealmDBService;
 import com.didlink.xingxing.service.UploadHandlerThread;
 
 public class AppSingleton{
@@ -16,6 +17,7 @@ public class AppSingleton{
     private UploadHandlerThread mUploadThread;
     private JmdnsService mJmdnsService;
     private TabbarsIndicator mTabbarsIndicator;
+    private RealmDBService mRealmDBService;
 
     private static AppSingleton mInstance;
     public static AppSingleton getInstance(){
@@ -57,6 +59,13 @@ public class AppSingleton{
             this.mJmdnsService = new JmdnsService();
         }
         return mJmdnsService;
+    }
+
+    public RealmDBService getmRealmDBService() {
+        if (this.mRealmDBService == null) {
+            this.mRealmDBService = new RealmDBService();
+        }
+        return mRealmDBService;
     }
 
     public void setTabbarsIndicator(TabbarsIndicator tabbarsIndicator) {

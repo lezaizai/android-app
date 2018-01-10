@@ -2,7 +2,6 @@ package com.didlink.xingxing.service;
 
 import android.util.Log;
 
-import com.didlink.xingxing.AppSingleton;
 import com.didlink.xingxing.models.Channel;
 import com.didlink.xingxing.models.LoginAuth;
 
@@ -16,11 +15,11 @@ import io.realm.RealmResults;
 /**
  * Created by xingxing on 2016/5/15.
  */
-public class RealmDBChannelService {
+public class RealmDBService {
 
-    public static final String TAG = RealmDBChannelService.class.getName();
+    public static final String TAG = RealmDBService.class.getName();
 
-    public static boolean saveAuth(LoginAuth auth) {
+    public boolean saveAuth(LoginAuth auth) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
             realm.copyToRealm(auth);
@@ -30,7 +29,7 @@ public class RealmDBChannelService {
         }
     }
 
-    public static LoginAuth getLoginAuth() {
+    public LoginAuth getLoginAuth() {
         try (Realm realm = Realm.getDefaultInstance()) {
             // No need to close the Realm instance manually
             Log.i(TAG, "Channel count: "  + realm.where(Channel.class).count());
@@ -39,7 +38,7 @@ public class RealmDBChannelService {
 
     }
 
-    public static List<Channel> getChannels() {
+    public List<Channel> getChannels() {
         List<Channel> channels = new ArrayList<>();
 
         try (Realm realm = Realm.getDefaultInstance()) {
@@ -51,7 +50,7 @@ public class RealmDBChannelService {
 
     }
 
-    public static boolean joinChannel(Channel channel) {
+    public boolean joinChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
             realm.copyToRealm(channel);
@@ -61,7 +60,7 @@ public class RealmDBChannelService {
         }
     }
 
-    public static boolean updateChannel(Channel channel) {
+    public boolean updateChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(channel);
@@ -71,7 +70,7 @@ public class RealmDBChannelService {
         }
     }
 
-    public static boolean removeChannel(Channel channel) {
+    public boolean removeChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
             RealmResults<Channel> channelRealmResults =  realm.where(Channel.class).equalTo("chid", channel.getChid()).findAll();
@@ -82,7 +81,7 @@ public class RealmDBChannelService {
         }
     }
 
-    public static void clearChannels() {
+    public void clearChannels() {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
             RealmResults<Channel> channelRealmResults =  realm.where(Channel.class).findAll();

@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 
 import com.didlink.xingxing.AppSingleton;
+import com.didlink.xingxing.config.Constants;
+import com.didlink.xingxing.models.LoginAuth;
+import com.didlink.xingxing.security.ILoginListener;
+import com.didlink.xingxing.security.LoginService;
+import com.didlink.xingxing.service.RealmDBChannelService;
 
 import dmax.dialog.SpotsDialog;
 import io.socket.client.Socket;
@@ -40,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     private SpotsDialog progressDialog;
     private Handler mHandler = new Handler();
 
-    private Socket mSocket;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +52,6 @@ public class LoginActivity extends AppCompatActivity {
 
         signInButton = (Button) findViewById(R.id.sign_in_button);
         signInCancel = (Button) findViewById(R.id.sign_in_cancel);
-
-        AppSingleton app = (Application) getApplication();
-        mSocket = app.getSocket();
 
         // Set up the login form.
         mUserloginView = (EditText) findViewById(R.id.input_login);
@@ -89,15 +89,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mSocket.on("signed", onSigned);
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        mSocket.off("signed", onSigned);
     }
 
     /**
@@ -146,89 +142,42 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         mUserlogin = userlogin;
-        JSONObject data = new JSONObject();
-        try {
-            data.put("userlogin",userlogin);
-            data.put("password",password);
-        } catch (JSONException e) {
-            Log.e("LoginaAtivity",e.toString());
-            return;
-        }
 
-        // perform the user login attempt.
-        mSocket.emit( "sign in", data);
+
+        LoginService loginService = AppSingleton.getInstance().getLoginService();
+        loginService.setLoginListener(new ILoginListener() {
+            @Override
+            public void loginResponse(final LoginAuth auth) {
+
+                mHandler.postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                AppSingleton.getInstance().setLoginAuth(auth);
+                                RealmDBChannelService.saveAuth(auth);
+                                signInButton.setEnabled(true);
+                                signInCancel.setEnabled(true);
+                                // onLoginFailed();
+                                progressDialog.dismiss();
+                                if (auth != null) {
+                                    Intent intent = new Intent();
+                                    //intent.putExtra("userlogin", mUserlogin);
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.error_login_auth), Toast.LENGTH_SHORT).show();
+                                    mUserloginView.requestFocus();
+                                }
+                            }
+                        }, 2000);
+
+            }
+        });
+
+        loginService.doLogin(Constants.HTTP_BASE_URL,
+                userlogin,
+                password);
     }
-
-    private Emitter.Listener onSigned = new Emitter.Listener() {
-        boolean result;
-        @Override
-        public void call(Object... args) {
-            JSONObject data = (JSONObject) args[0];
-            JSONObject user;
-            int errcode;
-            String avatar = "";
-            String uid = "";
-            String nickname = "";
-
-            int numUsers = 1;
-            try {
-                result = data.getBoolean("result");
-                if (result) {
-                    user = (JSONObject) data.getJSONObject("user");
-                    uid = user.getString("uid");
-                    mUserlogin = user.getString("username");
-                    avatar = user.getString("gravatarpicture");
-                    nickname = user.getString("nickname");
-                } else {
-                    errcode = data.getInt("user");
-                }
-            } catch (JSONException e) {
-                Log.e("LoginActivity", e.toString());
-                result = false;
-                errcode = -3;
-            }
-            try {
-                DB snappydb = DBFactory.open(getApplicationContext()); //create or open an existing databse using the default name
-                snappydb.put(Constants.DBKEY_USERLOGIN, mUserlogin);
-                snappydb.put(Constants.DBKEY_GRAVATARPICTURE, avatar);
-                snappydb.put(Constants.DBKEY_USERID, uid);
-                snappydb.put(Constants.DBKEY_NICKNAME, nickname);
-                snappydb.putBoolean(Constants.DBKEY_LOGIN, true);
-                snappydb.close();
-
-                DsnApplication app = (DsnApplication) getApplication();
-                app.setLoginname(mUserlogin);
-                app.setUserid(uid);
-                app.setAvatar(avatar);
-                app.setNickname(nickname);
-                app.setIsLogin(true);
-                app.getSocketIORTCClient().start(uid);
-            } catch (SnappydbException e) {
-                Log.e("mSettingFreeMsg",e.toString());
-            }
-
-            mHandler.postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onLoginSuccess or onLoginFailed
-                            signInButton.setEnabled(true);
-                            signInCancel.setEnabled(true);
-                            // onLoginFailed();
-                            progressDialog.dismiss();
-                            if (result) {
-                                Intent intent = new Intent();
-                                //intent.putExtra("userlogin", mUserlogin);
-                                setResult(RESULT_OK, intent);
-                                finish();
-                            }
-                            if (!result) {
-                                Toast.makeText(getApplicationContext(), getString(R.string.error_login_auth), Toast.LENGTH_SHORT).show();
-                                mUserloginView.requestFocus();
-                            }
-                        }
-                    }, 2000);
-        }
-    };
 
 }
 

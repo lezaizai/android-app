@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.didlink.xingxing.AppSingleton;
 import com.didlink.xingxing.models.Channel;
+import com.didlink.xingxing.models.LoginAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,25 @@ import io.realm.RealmResults;
 public class RealmDBChannelService {
 
     public static final String TAG = RealmDBChannelService.class.getName();
-    private AppSingleton app;
 
+    public static boolean saveAuth(LoginAuth auth) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.beginTransaction();
+            realm.copyToRealm(auth);
+            realm.commitTransaction();
+
+            return true;
+        }
+    }
+
+    public static LoginAuth getLoginAuth() {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            // No need to close the Realm instance manually
+            Log.i(TAG, "Channel count: "  + realm.where(Channel.class).count());
+            return realm.where(LoginAuth.class).findFirst();
+        }
+
+    }
 
     public static List<Channel> getChannels() {
         List<Channel> channels = new ArrayList<>();

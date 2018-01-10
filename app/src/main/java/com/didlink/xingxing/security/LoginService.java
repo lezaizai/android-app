@@ -56,6 +56,9 @@ public class LoginService {
             @Override
             public void onFailure(Call<LoginAuth> call, Throwable t) {
                 Log.e("LoginService", "onFailure() called with: " + "call = [" + call + "], t = [" + t + "]");
+                if (mLoginListener != null) {
+                    mLoginListener.loginResponse(null);
+                }
             }
         });
 //        try {

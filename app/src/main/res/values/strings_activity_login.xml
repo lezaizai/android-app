@@ -6,6 +6,9 @@
     <string name="action_sign_in">Join</string>
     <string name="action_sign_in_short">Join</string>
     <string name="action_sign_cancel">Cancel</string>
+    <string name="processing_sign">Authenticating...</string>
+    <string name="prompt_login">#Mobile/@Email</string>
+    <string name="prompt_password">Password</string>
 
     <string name="error_field_required">This field is required</string>
 </resources>

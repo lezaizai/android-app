@@ -150,13 +150,13 @@ public class LoginActivity extends AppCompatActivity {
                         new Runnable() {
                             public void run() {
                                 // On complete call either onLoginSuccess or onLoginFailed
-                                AppSingleton.getInstance().setLoginAuth(auth);
-                                AppSingleton.getInstance().getmRealmDBService().saveAuth(auth);
                                 signInButton.setEnabled(true);
                                 signInCancel.setEnabled(true);
                                 // onLoginFailed();
                                 progressDialog.dismiss();
-                                if (auth != null) {
+                                if (auth != null && auth.getStatus() == 0) {
+                                    AppSingleton.getInstance().setLoginAuth(auth);
+                                    AppSingleton.getInstance().getmRealmDBService().saveAuth(auth);
                                     Intent intent = new Intent();
                                     //intent.putExtra("userlogin", mUserlogin);
                                     setResult(RESULT_OK, intent);

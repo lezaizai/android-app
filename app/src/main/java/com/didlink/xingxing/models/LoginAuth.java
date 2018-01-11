@@ -8,9 +8,9 @@ import io.realm.annotations.PrimaryKey;
  */
 public class LoginAuth extends RealmObject {
     @PrimaryKey
-    private String uid;
+    private long uid;
 
-    private boolean status;
+    private byte status;
     private String baseurl;
     private String username;
     private String nickname;
@@ -18,19 +18,19 @@ public class LoginAuth extends RealmObject {
     private String avatar;
     private String token;
 
-    public String getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
-    public boolean getStatus() {
+    public byte getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(byte status) {
         this.status = status;
     }
 
@@ -83,7 +83,9 @@ public class LoginAuth extends RealmObject {
     }
 
     public String toString() {
-        return "username: " + username + "\n" +
+        return  "uid: " + uid + "\n" +
+                "status: " + status + "\n" +
+                "username: " + username + "\n" +
                 "password: " + password + "\n" +
                 "token: " + token;
     }

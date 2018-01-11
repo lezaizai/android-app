@@ -15,7 +15,7 @@ public class ThisApplicaion extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("xing.realm").build();
+        RealmConfiguration config = new RealmConfiguration.Builder().name("xing.realm").deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
     }
 }

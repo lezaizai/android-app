@@ -22,7 +22,7 @@ public class RealmDBService {
     public boolean saveAuth(LoginAuth auth) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            realm.copyToRealm(auth);
+            realm.copyToRealmOrUpdate(auth);
             realm.commitTransaction();
 
             return true;
@@ -53,7 +53,7 @@ public class RealmDBService {
     public boolean joinChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            realm.copyToRealm(channel);
+            realm.copyToRealmOrUpdate(channel);
             realm.commitTransaction();
 
             return true;

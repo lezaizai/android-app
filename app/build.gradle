@@ -46,6 +46,7 @@ dependencies {
     implementation project(':SystemBarlibrary')
     implementation project(':imagepickerModule')
     implementation project(':TVlibrary')
+    implementation 'com.android.support:design:26.0.0-beta1'
 }
 
 configurations.all {

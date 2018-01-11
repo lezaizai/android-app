@@ -10,16 +10,10 @@
         android:fitsSystemWindows="true"
         tools:context="com.didlink.xingxing.activity.LoginActivity">
 
-    <com.lezaizai.disneyfans.TitleBar
-        android:id="@+id/title_bar_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_below="@id/title_bar_login"
             android:orientation="vertical">
 
        <android.support.design.widget.TextInputLayout

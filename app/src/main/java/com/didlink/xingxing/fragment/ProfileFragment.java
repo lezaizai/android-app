@@ -3,15 +3,14 @@ package com.didlink.xingxing.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.media.MediaBrowserServiceCompat;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,12 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.didlink.xingxing.AppSingleton;
+import com.didlink.xingxing.R;
+import com.didlink.xingxing.activity.ImagesGridActivity;
+import com.didlink.xingxing.activity.LoginActivity;
+import com.didlink.xingxing.config.Constants;
 import com.lezaizai.imagepicker.AndroidImagePicker;
 import com.lezaizai.imagepicker.GlideImagePresenter;
 import com.lezaizai.imagepicker.ImagePresenter;
@@ -41,21 +44,15 @@ import com.sina.cloudstorage.services.scs.model.UserIdGrantee;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -65,21 +62,20 @@ import io.socket.emitter.Emitter;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentProfile#newInstance} factory method to
+ * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnPictureTakeCompleteListener,AndroidImagePicker.OnImageCropCompleteListener,AndroidImagePicker.OnImagePickCompleteListener{
-    private static final String TAG = FragmentProfile.class.getSimpleName();
+public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPictureTakeCompleteListener,AndroidImagePicker.OnImageCropCompleteListener,AndroidImagePicker.OnImagePickCompleteListener{
+
+    private static final String TAG = ProfileFragment.class.getSimpleName();
     private final int REQ_IMAGE = 1433;
     private final int REQ_IMAGE_CROP = 1435;
+    private static final int REQ_LOGIN = 0;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private SettingData mItemData = null;
-    private SettingViewItemData mItemViewData = null;
-    private SettingButton mSettingFreeMsg = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,12 +89,11 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
     private SelectAdapter mAdapter;
     private int screenWidth;
 
-    private Socket socket;
     private String mAvatarFilename;
     private TextView mNickView;
     private TextView mLoginnameView;
 
-    public FragmentProfile() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
@@ -108,11 +103,11 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentProfile.
+     * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentProfile newInstance(String param1, String param2) {
-        FragmentProfile fragment = new FragmentProfile();
+    public static ProfileFragment newInstance(String param1, String param2) {
+        ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -142,47 +137,66 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mImageAvator = (ImageView) view.findViewById(R.id.profile_avator_image);
-        screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+        boolean ifLogin = mySharedPreferences.getBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
 
-        AndroidImagePicker.getInstance().addOnImageCropCompleteListener(this);
+        if (ifLogin) {
+            getActivity().findViewById(R.id.profile_head).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.profile_login).setVisibility(View.INVISIBLE);
 
-        Button logoutButton = (Button) view.findViewById(R.id.profile_logout);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    DB snappydb = DBFactory.open(getContext()); //create or open an existing databse using the default name
-                    snappydb.putBoolean(Constants.DBKEY_LOGIN, false);
-                    snappydb.close();
-                } catch (SnappydbException e) {
-                    Log.e("logoutbutton",e.toString());
+            mImageAvator = (ImageView) view.findViewById(R.id.profile_avator_image);
+            screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+
+            AndroidImagePicker.getInstance().addOnImageCropCompleteListener(this);
+
+            Button logoutButton = (Button) view.findViewById(R.id.profile_logout);
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = mySharedPreferences.edit();
+                    editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
+                    editor.commit();
+
+                    if (mLogoutListener != null)
+                        mLogoutListener.onLogout();
                 }
-                DsnApplication app = (DsnApplication) getActivity().getApplication();
-                app.setIsLogin(false);
-                if (mLogoutListener != null)
-                    mLogoutListener.onLogout();
-            }
-        });
-        Button avatorButton = (Button) view.findViewById(R.id.profile_avator);
-        avatorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                int requestCode = REQ_IMAGE_CROP;
-                AndroidImagePicker.getInstance().setSelectMode(AndroidImagePicker.Select_Mode.MODE_SINGLE);
-                AndroidImagePicker.getInstance().setShouldShowCamera(true);
-                intent.putExtra("isCrop", true);
-                intent.setClass(getContext(),ImagesGridActivity.class);
-                startActivityForResult(intent, requestCode);
-            }
-        });
+            });
+            Button avatorButton = (Button) view.findViewById(R.id.profile_avator);
+            avatorButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    int requestCode = REQ_IMAGE_CROP;
+                    AndroidImagePicker.getInstance().setSelectMode(AndroidImagePicker.Select_Mode.MODE_SINGLE);
+                    AndroidImagePicker.getInstance().setShouldShowCamera(true);
+                    intent.putExtra("isCrop", true);
+                    intent.setClass(getActivity().getApplicationContext(),ImagesGridActivity.class);
+                    startActivityForResult(intent, requestCode);
+                }
+            });
 
-        mNickView = (TextView) view.findViewById(R.id.profile_text_nickname);
-        mNickView.setText(app.getNickname());
-        mLoginnameView = (TextView) view.findViewById(R.id.profile_text_loginname);
-        mLoginnameView.setText(app.getLoginname());
-        presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + app.getAvatar(),55);
+            mNickView = (TextView) view.findViewById(R.id.profile_text_nickname);
+            mNickView.setText(AppSingleton.getInstance().getLoginAuth().getNickname());
+            mLoginnameView = (TextView) view.findViewById(R.id.profile_text_loginname);
+            mLoginnameView.setText(AppSingleton.getInstance().getLoginAuth().getUsername());
+            presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + AppSingleton.getInstance().getLoginAuth().getAvatar(),55);
+        } else {
+            getActivity().findViewById(R.id.profile_head).setVisibility(View.INVISIBLE);
+            getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
+
+            Button loginButton = (Button) view.findViewById(R.id.btn_login);
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                    startActivityForResult(intent, REQ_LOGIN);
+
+                }
+            });
+        }
+
+
 
         initView();
     }
@@ -215,7 +229,6 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
         AndroidImagePicker.getInstance().deleteOnImagePickCompleteListener(this);
         AndroidImagePicker.getInstance().removeOnImageCropCompleteListener(this);
         AndroidImagePicker.getInstance().deleteOnPictureTakeCompleteListener(this);
-        socket.off("updated avator", onUpdatedAvator);
 
         super.onDestroy();
     }
@@ -224,18 +237,21 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            DsnApplication app = (DsnApplication) getActivity().getApplication();
-            mSettingFreeMsg.setChecked(app.getIsRevfreemsg());
             AndroidImagePicker.getInstance().setOnPictureTakeCompleteListener(this);//watching Picture taking
             AndroidImagePicker.getInstance().setOnImagePickCompleteListener(this);
 //            Toast.makeText(getContext(), String.valueOf(hidden),
 //                    Toast.LENGTH_SHORT).show();
 
-            mNickView.setText(app.getNickname());
-            mLoginnameView.setText(app.getLoginname());
+            mNickView.setText(AppSingleton.getInstance().getLoginAuth().getNickname());
+            mLoginnameView.setText(AppSingleton.getInstance().getLoginAuth().getUsername());
 
-            if (app.getAvatarStat()!=0) {
-                String photoPath = getContext().getFilesDir() + "/" + app.getAvatar();
+            SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+            boolean avatarStat = mySharedPreferences.getBoolean(Constants.SHARED_PREFERENCE_KEY_AVATAR_STATUS, false);
+
+            if (avatarStat) {
+                String avatarFile = mySharedPreferences.getString(Constants.SHARED_PREFERENCE_KEY_AVATAR_FILE,"");
+
+                String photoPath = getActivity().getApplicationContext().getFilesDir() + "/" + avatarFile;
 
                 final BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
@@ -247,7 +263,7 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
                 Bitmap bmp = BitmapFactory.decodeFile(photoPath, options);
                 new RetrieveFeedTask().execute(bmp);
             } else {
-                presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + app.getAvatar(),55);
+                presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + AppSingleton.getInstance().getLoginAuth().getAvatar(),55);
             }
 
         }
@@ -318,13 +334,13 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
         SimpleDateFormat sy1=new SimpleDateFormat("yyyyMMDD");
         SimpleDateFormat sy2=new SimpleDateFormat("yyyyMMDDHHmmssSSS");
         String dateFormat=sy1.format(date);
-        mAvatarFilename = "avator/" + sy1.format(date) + "/" + app.getUserid() + "/" + sy2.format(date) + ".png";
+        mAvatarFilename = "avator/" + sy1.format(date) + "/" + AppSingleton.getInstance().getLoginAuth().getUid() + "/" + sy2.format(date) + ".png";
 
         try {
-            File folder = new File(getContext().getFilesDir(), "avator/" + sy1.format(date) + "/" + app.getUserid());
+            File folder = new File(getActivity().getApplicationContext().getFilesDir(), "avator/" + sy1.format(date) + "/" + AppSingleton.getInstance().getLoginAuth().getUid());
             folder.mkdirs();
- Log.d(TAG, getContext().getFilesDir() + "/" + mAvatarFilename);
-            FileOutputStream out = new FileOutputStream(getContext().getFilesDir() + "/" + mAvatarFilename);
+ Log.d(TAG, getActivity().getApplicationContext().getFilesDir() + "/" + mAvatarFilename);
+            FileOutputStream out = new FileOutputStream(getActivity().getApplicationContext().getFilesDir() + "/" + mAvatarFilename);
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
 
         } catch (Exception e) {
@@ -333,21 +349,18 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
             return;
         }
 
-        presenter.onPresentImage(mImageAvator,getContext().getFilesDir() + "/" + mAvatarFilename,55);
-        if (app.getAvatar() != "") {
-            File avatorFile = new File(getContext().getFilesDir() + "/" + app.getAvatar());
+        presenter.onPresentImage(mImageAvator,getActivity().getApplicationContext().getFilesDir() + "/" + mAvatarFilename,55);
+        if (AppSingleton.getInstance().getLoginAuth().getAvatar() != "") {
+            File avatorFile = new File(getActivity().getApplicationContext().getFilesDir() + "/" + AppSingleton.getInstance().getLoginAuth().getAvatar());
             if (avatorFile.exists()) avatorFile.delete();
         }
-        app.setAvatar(mAvatarFilename);
-        app.setAvatarStat(1);
-        try {
-            DB snappydb = DBFactory.open(getContext()); //create or open an existing databse using the default name
-            snappydb.put(Constants.DBKEY_GRAVATARPICTURE, mAvatarFilename);
-            snappydb.putInt(Constants.DBKEY_AVATARSTATUS, 1);
-            snappydb.close();
-        } catch (SnappydbException e) {
-            Log.e("mSettingFreeMsg",e.toString());
-        }
+        AppSingleton.getInstance().getLoginAuth().setAvatar(mAvatarFilename);
+
+        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_AVATAR_STATUS, true);
+        editor.putString(Constants.SHARED_PREFERENCE_KEY_AVATAR_FILE, mAvatarFilename);
+        editor.commit();
 
         new RetrieveFeedTask().execute(bmp);
 
@@ -467,19 +480,6 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
                 acl.grantPermissions(UserIdGrantee.CANONICAL, Permission.Read);
                 acl.grantPermissions(UserIdGrantee.ANONYMOUSE,Permission.Read);
                 conn.setObjectAcl("disneyfans", mAvatarFilename, acl);
-                DsnApplication app = (DsnApplication) getActivity().getApplication();
-
-                if (socket.connected()) {
-                    JSONObject obj = new JSONObject();
-                    try {
-                        obj.put("uid", app.getUserid());
-                        obj.put("avator", mAvatarFilename);
-                        socket.emit("update avator", obj);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-                }
 
                 return putObjectResult.toString();
 
@@ -504,15 +504,10 @@ public class FragmentProfile extends Fragment  implements AndroidImagePicker.OnP
                 result = false;
             }
 
-            DsnApplication app = (DsnApplication) getActivity().getApplication();
-            app.setAvatarStat(0);
-            try {
-                DB snappydb = DBFactory.open(getContext()); //create or open an existing databse using the default name
-                snappydb.putInt(Constants.DBKEY_AVATARSTATUS, 0);
-                snappydb.close();
-            } catch (SnappydbException e) {
-                Log.e("mSettingFreeMsg",e.toString());
-            }
+            SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = mySharedPreferences.edit();
+            editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_AVATAR_STATUS, false);
+            editor.commit();
 
         }
     };

@@ -6,6 +6,12 @@ public class Constants {
     public static final int SPOTCODE_DEFAULT = 0;
     public static final int SPOTCODE_STATION = 1;
 
+    //SharedPreferences key
+    public static final String SHARED_PREFERENCE_NAME = "shared_p";
+    public static final String SHARED_PREFERENCE_KEY_IFLOGIN = "if_login";
+    public static final String SHARED_PREFERENCE_KEY_AVATAR_STATUS = "avatar_status";
+    public static final String SHARED_PREFERENCE_KEY_AVATAR_FILE = "avatar_file";
+
     //DB KEY
     public static final String DBKEY_RECEIVEFREEMSG = "shdisney_revmsg";
     public static final String DBKEY_LOGIN = "login";

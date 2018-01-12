@@ -1,6 +1,8 @@
 package com.didlink.xingxing.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -157,6 +159,11 @@ public class LoginActivity extends AppCompatActivity {
                                 if (auth != null && auth.getStatus() == 0) {
                                     AppSingleton.getInstance().setLoginAuth(auth);
                                     AppSingleton.getInstance().getmRealmDBService().saveAuth(auth);
+                                    SharedPreferences mySharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = mySharedPreferences.edit();
+                                    editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, true);
+                                    editor.commit();
+
                                     Intent intent = new Intent();
                                     //intent.putExtra("userlogin", mUserlogin);
                                     setResult(RESULT_OK, intent);

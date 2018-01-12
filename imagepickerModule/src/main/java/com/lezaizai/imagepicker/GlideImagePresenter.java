@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.io.File;
@@ -54,13 +55,14 @@ public class GlideImagePresenter implements ImagePresenter{
         img.setLayoutParams(params);
         Glide.with(context)
                 .load(new File(imageUri))
-                .transform(new GlideRoundTransform(context, 10))
-                .centerCrop()
-                .dontAnimate()
+                .apply(new RequestOptions()
+                    .transform(new GlideRoundTransform(context, 10))
+                    .centerCrop()
+                    .dontAnimate()
+                    .override(size/4*3, size/4*3)
+                    .placeholder(R.drawable.default_img)
+                    .error(R.drawable.default_img))
                 .thumbnail(0.5f)
-                .override(size/4*3, size/4*3)
-                .placeholder(R.drawable.default_img)
-                .error(R.drawable.default_img)
                 .into(img);
         return img;
     }
@@ -68,13 +70,14 @@ public class GlideImagePresenter implements ImagePresenter{
     public void onPresentImage(final ImageView imageView, String imageUri, int size) {
         Glide.with(imageView.getContext())
                 .load(new File(imageUri))
-                .centerCrop()
-                .dontAnimate()
+                .apply(new RequestOptions()
+                    .centerCrop()
+                    .dontAnimate()
+                    .override(size/4*3, size/4*3)
+                    .placeholder(R.drawable.default_img)
+                    .error(R.drawable.default_img)
+                    .transform(new GlideRoundTransform(imageView.getContext())))
                 .thumbnail(0.5f)
-                .override(size/4*3, size/4*3)
-                .placeholder(R.drawable.default_img)
-                .error(R.drawable.default_img)
-                .transform(new GlideRoundTransform(imageView.getContext()))
                 .into(imageView);
 
     }
@@ -82,13 +85,14 @@ public class GlideImagePresenter implements ImagePresenter{
     public void onPresentWebImage(final ImageView imageView, String imageUri, int size) {
         Glide.with(imageView.getContext())
                 .load(imageUri)
-                .centerCrop()
-                .dontAnimate()
+                .apply(new RequestOptions()
+                    .centerCrop()
+                    .dontAnimate()
+                    .override(size/4*3, size/4*3)
+                    .placeholder(R.drawable.default_img)
+                    .error(R.drawable.default_img)
+                    .transform(new GlideRoundTransform(imageView.getContext())))
                 .thumbnail(0.5f)
-                .override(size/4*3, size/4*3)
-                .placeholder(R.drawable.default_img)
-                .error(R.drawable.default_img)
-                .transform(new GlideRoundTransform(imageView.getContext()))
                 .into(imageView);
 
     }

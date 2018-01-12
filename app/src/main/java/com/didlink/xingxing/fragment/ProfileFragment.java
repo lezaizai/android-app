@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
     private static final String TAG = ProfileFragment.class.getSimpleName();
     private final int REQ_IMAGE = 1433;
     private final int REQ_IMAGE_CROP = 1435;
-    private static final int REQ_LOGIN = 0;
+    private static final int REQ_LOGIN = 1436;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,6 +90,8 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
     private int screenWidth;
 
     private String mAvatarFilename;
+
+    private View mView;
     private TextView mNickView;
     private TextView mLoginnameView;
 
@@ -137,68 +139,8 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
-        boolean ifLogin = mySharedPreferences.getBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
-
-        if (ifLogin) {
-            getActivity().findViewById(R.id.profile_head).setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.profile_login).setVisibility(View.INVISIBLE);
-
-            mImageAvator = (ImageView) view.findViewById(R.id.profile_avator_image);
-            screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-
-            AndroidImagePicker.getInstance().addOnImageCropCompleteListener(this);
-
-            Button logoutButton = (Button) view.findViewById(R.id.profile_logout);
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mySharedPreferences.edit();
-                    editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
-                    editor.commit();
-
-                    if (mLogoutListener != null)
-                        mLogoutListener.onLogout();
-                }
-            });
-            Button avatorButton = (Button) view.findViewById(R.id.profile_avator);
-            avatorButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent();
-                    int requestCode = REQ_IMAGE_CROP;
-                    AndroidImagePicker.getInstance().setSelectMode(AndroidImagePicker.Select_Mode.MODE_SINGLE);
-                    AndroidImagePicker.getInstance().setShouldShowCamera(true);
-                    intent.putExtra("isCrop", true);
-                    intent.setClass(getActivity().getApplicationContext(),ImagesGridActivity.class);
-                    startActivityForResult(intent, requestCode);
-                }
-            });
-
-            mNickView = (TextView) view.findViewById(R.id.profile_text_nickname);
-            mNickView.setText(AppSingleton.getInstance().getLoginAuth().getNickname());
-            mLoginnameView = (TextView) view.findViewById(R.id.profile_text_loginname);
-            mLoginnameView.setText(AppSingleton.getInstance().getLoginAuth().getUsername());
-            presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + AppSingleton.getInstance().getLoginAuth().getAvatar(),55);
-        } else {
-            getActivity().findViewById(R.id.profile_head).setVisibility(View.INVISIBLE);
-            getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
-
-            Button loginButton = (Button) view.findViewById(R.id.btn_login);
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
-                    startActivityForResult(intent, REQ_LOGIN);
-
-                }
-            });
-        }
-
-
-
-        initView();
+        mView = view;
+        refreshView();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -294,23 +236,91 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
     public void setLogoutListener(OnLogoutListener listener) {
         mLogoutListener = listener;
     }
-    private void initView() {
+
+    private void refreshView() {
+
+        View view = mView;
+        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+        boolean ifLogin = mySharedPreferences.getBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
+
+        if (ifLogin) {
+            getActivity().findViewById(R.id.profile_head).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.profile_login).setVisibility(View.INVISIBLE);
+
+            mImageAvator = (ImageView) view.findViewById(R.id.profile_avator_image);
+            screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+
+            AndroidImagePicker.getInstance().addOnImageCropCompleteListener(this);
+
+            Button logoutButton = (Button) view.findViewById(R.id.profile_logout);
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = mySharedPreferences.edit();
+                    editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
+                    editor.commit();
+
+                    if (mLogoutListener != null)
+                        mLogoutListener.onLogout();
+                }
+            });
+            Button avatorButton = (Button) view.findViewById(R.id.profile_avator);
+            avatorButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    int requestCode = REQ_IMAGE_CROP;
+                    AndroidImagePicker.getInstance().setSelectMode(AndroidImagePicker.Select_Mode.MODE_SINGLE);
+                    AndroidImagePicker.getInstance().setShouldShowCamera(true);
+                    intent.putExtra("isCrop", true);
+                    intent.setClass(getActivity().getApplicationContext(),ImagesGridActivity.class);
+                    startActivityForResult(intent, requestCode);
+                }
+            });
+
+            mNickView = (TextView) view.findViewById(R.id.profile_text_nickname);
+            mNickView.setText(AppSingleton.getInstance().getLoginAuth().getNickname());
+            mLoginnameView = (TextView) view.findViewById(R.id.profile_text_loginname);
+            mLoginnameView.setText(AppSingleton.getInstance().getLoginAuth().getUsername());
+            presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + AppSingleton.getInstance().getLoginAuth().getAvatar(),55);
+        } else {
+            getActivity().findViewById(R.id.profile_head).setVisibility(View.INVISIBLE);
+            getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
+
+            Button loginButton = (Button) view.findViewById(R.id.btn_login);
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                    startActivityForResult(intent, REQ_LOGIN);
+
+                }
+            });
+        }
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK){
             if (requestCode == REQ_IMAGE) {
 
                 List<ImageItem> imageList = AndroidImagePicker.getInstance().getSelectedImages();
                 mAdapter.clear();
                 mAdapter.addAll(imageList);
+            } else if(requestCode == REQ_LOGIN){
+                Log.i(TAG,"----- login finished. ");
+                refreshView();
             }/*else if(requestCode == REQ_IMAGE_CROP){
                 Bitmap bmp = (Bitmap)data.getExtras().get("bitmap");
                 Log.i(TAG,"-----"+bmp.getRowBytes());
             }*/
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            if (requestCode == REQ_LOGIN) {
+
+            }
         }
 
     }

@@ -27,7 +27,8 @@ public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPag
         fragments.add(ProfileFragment.newInstance(titles[2],titles[2]));
         //fragments.add(TextFragment.newInstance(titles[0]));
         fragments.add(MapFragment.newInstance(titles[0]));
-        fragments.add(SettingsFragment.newInstance());
+        //fragments.add(SettingsFragment.newInstance());
+        fragments.add(TextFragment.newInstance(titles[3]));
     }
 
     @Override

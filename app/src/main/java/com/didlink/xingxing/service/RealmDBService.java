@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.didlink.xingxing.models.Channel;
 import com.didlink.xingxing.models.LoginAuth;
+import com.didlink.xingxing.models.LoginAuthRealmObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class RealmDBService {
     public boolean saveAuth(LoginAuth auth) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            realm.copyToRealmOrUpdate(auth);
+            realm.copyToRealmOrUpdate(auth.toRealmOjb());
             realm.commitTransaction();
 
             return true;
@@ -32,8 +33,13 @@ public class RealmDBService {
     public LoginAuth getLoginAuth() {
         try (Realm realm = Realm.getDefaultInstance()) {
             // No need to close the Realm instance manually
-            Log.i(TAG, "Channel count: "  + realm.where(Channel.class).count());
-            return realm.where(LoginAuth.class).findFirst();
+            long cnt = realm.where(LoginAuthRealmObj.class).count();
+            Log.i(TAG, "Login Auth count: "  + cnt);
+            if (cnt > 0) {
+                return realm.where(LoginAuthRealmObj.class).findFirst().toAuth();
+            } else {
+                return null;
+            }
         }
 
     }
@@ -88,6 +94,34 @@ public class RealmDBService {
             channelRealmResults.deleteAllFromRealm();
             realm.commitTransaction();
         }
+    }
+
+    private LoginAuth converToAuth(LoginAuthRealmObj realmObj) {
+        LoginAuth auth = new LoginAuth();
+        auth.setUid(realmObj.getUid());
+        auth.setAvatar(realmObj.getAvatar());
+        auth.setBaseurl(realmObj.getBaseurl());
+        auth.setNickname(realmObj.getNickname());
+        auth.setPassword(realmObj.getPassword());
+        auth.setStatus(realmObj.getStatus());
+        auth.setToken(realmObj.getToken());
+        auth.setUsername(realmObj.getUsername());
+
+        return auth;
+    }
+
+    private LoginAuthRealmObj converFromAuth(LoginAuth authObj) {
+        LoginAuthRealmObj realmObj = new LoginAuthRealmObj();
+        realmObj.setUid(authObj.getUid());
+        realmObj.setAvatar(authObj.getAvatar());
+        realmObj.setBaseurl(authObj.getBaseurl());
+        realmObj.setNickname(authObj.getNickname());
+        realmObj.setPassword(authObj.getPassword());
+        realmObj.setStatus(authObj.getStatus());
+        realmObj.setToken(authObj.getToken());
+        realmObj.setUsername(authObj.getUsername());
+
+        return realmObj;
     }
 
 }

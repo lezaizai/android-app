@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by wuh56 on 3/24/2017.
  */
-public class LoginAuth {
+public class LoginAuthRealmObj extends RealmObject {
     @PrimaryKey
     private long uid;
 
@@ -82,18 +82,18 @@ public class LoginAuth {
         this.token = token;
     }
 
-    public LoginAuthRealmObj toRealmOjb() {
-        LoginAuthRealmObj realmObj = new LoginAuthRealmObj();
-        realmObj.setUid(this.getUid());
-        realmObj.setAvatar(this.getAvatar());
-        realmObj.setBaseurl(this.getBaseurl());
-        realmObj.setNickname(this.getNickname());
-        realmObj.setPassword(this.getPassword());
-        realmObj.setStatus(this.getStatus());
-        realmObj.setToken(this.getToken());
-        realmObj.setUsername(this.getUsername());
+    public LoginAuth toAuth() {
+        LoginAuth auth = new LoginAuth();
+        auth.setUid(this.getUid());
+        auth.setAvatar(this.getAvatar());
+        auth.setBaseurl(this.getBaseurl());
+        auth.setNickname(this.getNickname());
+        auth.setPassword(this.getPassword());
+        auth.setStatus(this.getStatus());
+        auth.setToken(this.getToken());
+        auth.setUsername(this.getUsername());
 
-        return realmObj;
+        return auth;
     }
 
     public String toString() {

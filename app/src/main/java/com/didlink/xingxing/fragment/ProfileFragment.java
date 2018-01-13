@@ -1,6 +1,7 @@
 package com.didlink.xingxing.fragment;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -141,6 +142,12 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
 
         mView = view;
         refreshView();
+
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        //        ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_in_left);
+        ft.replace(R.id.fragment_setting_container, SettingsFragment.newInstance());
+        ft.commit();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -245,7 +252,7 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
 
         if (ifLogin) {
             getActivity().findViewById(R.id.profile_head).setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.profile_login).setVisibility(View.INVISIBLE);
+            getActivity().findViewById(R.id.profile_login).setVisibility(View.GONE);
 
             mImageAvator = (ImageView) view.findViewById(R.id.profile_avator_image);
             screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
@@ -260,6 +267,9 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
                     SharedPreferences.Editor editor = mySharedPreferences.edit();
                     editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
                     editor.commit();
+
+                    getActivity().findViewById(R.id.profile_head).setVisibility(View.GONE);
+                    getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
 
                     if (mLogoutListener != null)
                         mLogoutListener.onLogout();
@@ -285,7 +295,7 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
             mLoginnameView.setText(AppSingleton.getInstance().getLoginAuth().getUsername());
             presenter.onPresentWebImage(mImageAvator,"http://storage.disneyfans.cn/" + AppSingleton.getInstance().getLoginAuth().getAvatar(),55);
         } else {
-            getActivity().findViewById(R.id.profile_head).setVisibility(View.INVISIBLE);
+            getActivity().findViewById(R.id.profile_head).setVisibility(View.GONE);
             getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
 
             Button loginButton = (Button) view.findViewById(R.id.btn_login);

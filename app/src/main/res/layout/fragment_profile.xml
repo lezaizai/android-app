@@ -104,4 +104,13 @@
             android:gravity="center"
             android:textStyle="bold"/>
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_setting_container"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0"
+        android:background="#F7F5DE" >
+    </FrameLayout>
+
 </LinearLayout>

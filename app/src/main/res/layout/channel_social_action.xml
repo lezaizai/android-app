@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        android:gravity="right">
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/add_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentRight="true"
+            app:ico_size="28dp"
+            app:ico_color="@color/deepgrey"
+            app:ico_icon="ion-person-add" />
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/add_contact"
+            app:ico_size="28dp"
+            app:ico_color="@color/deepgrey"
+            app:ico_icon="ion-ios-people" />
+
+</RelativeLayout>

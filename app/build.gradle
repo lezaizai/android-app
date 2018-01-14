@@ -31,6 +31,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'junit:junit:4.12'
+    implementation "com.mikepenz:iconics-core:3.0.0@aar"
+    implementation "com.mikepenz:iconics-views:3.0.0@aar"
+    implementation 'com.mikepenz:ionicons-typeface:2.0.1.4@aar'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'org.jmdns:jmdns:3.5.1'

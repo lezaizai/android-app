@@ -1,6 +1,7 @@
 package com.didlink.xingxing;
 
 import android.os.Bundle;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.util.Log;
 
 import com.didlink.systembar.Base.BaseActivity;
@@ -13,6 +14,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setTitleBgColor(R.color.deepgrey);
         setToolbarTitleTv("GOOD");
         new StatusBarManager.builder(this)

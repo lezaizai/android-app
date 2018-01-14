@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.didlink.xingxing.fragment.ChannelFragment;
 import com.didlink.xingxing.fragment.MapFragment;
 import com.didlink.xingxing.fragment.ProfileFragment;
 import com.didlink.xingxing.fragment.SettingsFragment;
@@ -23,7 +24,7 @@ public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPag
 
     public MainAdapter(FragmentManager fm) {
         super(fm);
-        fragments.add(TextFragment.newInstance(titles[1]));
+        fragments.add(ChannelFragment.newInstance());
         fragments.add(ProfileFragment.newInstance(titles[2],titles[2]));
         //fragments.add(TextFragment.newInstance(titles[0]));
         fragments.add(MapFragment.newInstance(titles[0]));

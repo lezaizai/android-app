@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.johnkil.print.PrintView;
 import com.lezaizai.atv.model.TreeNode;
-import com.lezaizai.disneyfans.R;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.iconics.view.IconicsImageView;

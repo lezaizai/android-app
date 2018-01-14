@@ -6,16 +6,17 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.johnkil.print.PrintView;
 import com.lezaizai.atv.model.TreeNode;
-import com.lezaizai.disneyfans.R;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.view.IconicsImageView;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 
 /**
  * Created by Bogdan Melnychuk on 2/13/15.
  */
 public class HeaderHolder extends TreeNode.BaseNodeViewHolder<IconTreeItemHolder.IconTreeItem> {
 
-    private PrintView arrowView;
+    private IconicsImageView arrowView;
 
     public HeaderHolder(Context context) {
         super(context);
@@ -28,7 +29,7 @@ public class HeaderHolder extends TreeNode.BaseNodeViewHolder<IconTreeItemHolder
         TextView tvValue = (TextView) view.findViewById(R.id.node_value);
         tvValue.setText(value.text);
 
-        arrowView = (PrintView) view.findViewById(R.id.arrow_icon);
+        arrowView = (IconicsImageView) view.findViewById(R.id.arrow_icon);
         if (node.isLeaf()) {
             arrowView.setVisibility(View.INVISIBLE);
         }
@@ -59,7 +60,11 @@ public class HeaderHolder extends TreeNode.BaseNodeViewHolder<IconTreeItemHolder
 
     @Override
     public void toggle(boolean active) {
-        arrowView.setIconText(context.getResources().getString(active ? R.string.ic_keyboard_arrow_down : R.string.ic_keyboard_arrow_right));
+        if (active) {
+            arrowView.setIcon(new IconicsDrawable(context).icon(Ionicons.Icon.ion_android_arrow_down));
+        } else {
+            arrowView.setIcon(new IconicsDrawable(context).icon(Ionicons.Icon.ion_chevron_right));
+        }
     }
 
 

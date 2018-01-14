@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         app:ico_icon="ion-email"
         app:ico_color="#12558C"
-        app:iconFont="fonts/material-icon-font.ttf"
         app:ico_size="24dp" />
 
     <TextView

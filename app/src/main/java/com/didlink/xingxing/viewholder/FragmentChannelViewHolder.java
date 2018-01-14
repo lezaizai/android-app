@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.didlink.xingxing.models.Channel;
 import com.lezaizai.atv.model.TreeNode;
+import com.mikepenz.iconics.view.IconicsImageView;
 
 /**
  * Created by Bogdan Melnychuk on 2/13/15.
@@ -15,7 +16,7 @@ import com.lezaizai.atv.model.TreeNode;
 public class FragmentChannelViewHolder extends TreeNode.BaseNodeViewHolder<Channel> {
     private OnPopActionListener mActionListener;
     private Channel channel;
-    private PrintView show_pop;
+    private IconicsImageView show_pop;
 
     public FragmentChannelViewHolder(Context context) {
         super(context);
@@ -34,7 +35,7 @@ public class FragmentChannelViewHolder extends TreeNode.BaseNodeViewHolder<Chann
 
         channel = value;
 
-        show_pop = (PrintView) view.findViewById(R.id.show_pop);
+        show_pop = (IconicsImageView) view.findViewById(R.id.show_pop);
         show_pop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.johnkil.print.PrintView;
 import com.lezaizai.atv.model.TreeNode;
-import com.lezaizai.disneyfans.R;
 
 import java.util.Random;
 

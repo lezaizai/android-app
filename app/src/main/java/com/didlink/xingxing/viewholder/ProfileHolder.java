@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.johnkil.print.PrintView;
 import com.lezaizai.atv.model.TreeNode;
-import com.lezaizai.disneyfans.R;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.view.IconicsImageView;
 import com.mikepenz.ionicons_typeface_library.Ionicons;

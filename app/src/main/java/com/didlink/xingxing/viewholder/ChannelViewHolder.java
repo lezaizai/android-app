@@ -8,8 +8,6 @@ import android.widget.TextView;
 import com.didlink.xingxing.models.Channel;
 import com.lezaizai.atv.model.TreeNode;
 
-import java.util.Random;
-
 /**
  * Created by Bogdan Melnychuk on 2/13/15.
  */

@@ -13,8 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import com.didlink.xingxing.R;
+import com.didlink.xingxing.activity.AddContactActivity;
+import com.didlink.xingxing.activity.AddGroupActivity;
+import com.didlink.xingxing.config.Constants;
+import com.didlink.xingxing.dialog.TitleMenu.ActionItem;
+import com.didlink.xingxing.dialog.TitleMenu.TitlePopup;
+import com.didlink.xingxing.models.Channel;
+import com.didlink.xingxing.models.Contact;
+import com.didlink.xingxing.viewholder.ContactViewHolder;
+import com.didlink.xingxing.viewholder.FragmentChannelViewHolder;
+import com.didlink.xingxing.viewholder.HeaderHolder;
+import com.didlink.xingxing.viewholder.IconTreeItemHolder;
+import com.didlink.xingxing.viewholder.SocialActionHolder;
+import com.didlink.xingxing.viewholder.SocialViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
+
+import java.util.List;
 
 /**
  * Created by Bogdan Melnychuk on 2/12/15.
@@ -28,14 +44,11 @@ public class ChannelFragment extends Fragment {
 //    private TreeNode myProfile;
 //    private TreeNode mPublic;
     private Handler mHandler = new Handler();
-    private DsnApplication app;
 //    private Channel mMyChannel;
 //    private Channel mPublicChannel;
     private TreeNode root;
     private ViewGroup containerView;
     private TitlePopup titlePopup;
-    private Channel channelonaction;
-    private SocketService mCtrlmessage;
     private List<Channel> newchannels;
 
     public static ChannelFragment newInstance() {
@@ -51,10 +64,8 @@ public class ChannelFragment extends Fragment {
         containerView = (ViewGroup) rootView.findViewById(R.id.container);
         rootView.findViewById(R.id.status_bar).setVisibility(View.GONE);
 
-        app = (DsnApplication) getActivity().getApplication();
 //        mMyChannel = app.getPramaryChannel().getMyChannel();
 //        mPublicChannel = app.getPramaryChannel().getPublicChannel();
-        mCtrlmessage = app.getSocketService();
 
         root = TreeNode.root();
 
@@ -101,58 +112,12 @@ public class ChannelFragment extends Fragment {
             }
         }
 
-        mCtrlmessage.setGetChannelsListener(new SocketService.OnGetChannelsListener(){
-            @Override
-            public void onGetUidChannelsResult(boolean result, List<Channel> channels){
-                if (!result) {
-                    return;
-                }
-                SDBService.clearChannels(getContext());
-
-                for (Channel channel : channels) {
-                    SDBService.joinChannel(getContext(),channel);
-                }
-                app.setChannels(channels);
-                getActivity().runOnUiThread(new Runnable() {
-                      @Override
-                      public void run() {
-                          refreshChannelV();
-
-                      }
-                  });
-            };
-
-            @Override
-            public void onLeaveChannelResult(boolean result) {
-                if (!result) {
-                    return;
-                }
-                SDBService.removeChannel(getContext(),channelonaction);
-                app.removeChannel(channelonaction);
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshChannelV();
-
-                    }
-                });
-            };
-
-        });
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mCtrlmessage.getChannelByUid(app.getUserid());
-            }
-        }, 3000);
     };
 
     private void addPramaryChannel(TreeNode profile, Channel channel) {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.didlink.xingxing.R;
 import com.lezaizai.atv.model.TreeNode;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
@@ -37,7 +38,7 @@ public class IconTreeItemHolder extends TreeNode.BaseNodeViewHolder<IconTreeItem
         view.findViewById(R.id.btn_addFolder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TreeNode newFolder = new TreeNode(new IconTreeItem(R.string.ic_folder, "New Folder"));
+                TreeNode newFolder = new TreeNode(new IconTreeItem(Ionicons.Icon.ion_folder, "New Folder"));
                 getTreeView().addNode(node, newFolder);
             }
         });

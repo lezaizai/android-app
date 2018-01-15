@@ -14,15 +14,21 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.didlink.xingxing.R;
+import com.didlink.xingxing.common.adapter.TextWatcherAdapter;
+import com.didlink.xingxing.models.Contact;
+import com.didlink.xingxing.service.SocketService;
+import com.didlink.xingxing.viewholder.ContactViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
+import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.util.List;
 
 public class AddContactActivity extends AppCompatActivity {
     private EditText mNameView;
     private String mProfile;
-    private PrintView mSearchBtn;
+    private IconicsTextView mSearchBtn;
     private SocketService mCtrlmessage;
     private AndroidTreeView tView;
     private TreeNode root;
@@ -30,7 +36,6 @@ public class AddContactActivity extends AppCompatActivity {
     private List<Contact> newcontacts;
     private String mPreSearchStr;
     private String mChid;
-    private DsnApplication app;
     private Contact mSelectedContact;
     private boolean longpressing;
 
@@ -40,10 +45,8 @@ public class AddContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_contact);
         containerView = (ViewGroup) findViewById(R.id.addcontact_container);
 
-        app = (DsnApplication) getApplication();
-
         mNameView = (EditText) findViewById(R.id.search_nameinput);
-        mSearchBtn = (PrintView) findViewById(R.id.search_contact);
+        mSearchBtn = (IconicsTextView) findViewById(R.id.search_contact);
         mPreSearchStr = "";
         mCtrlmessage = app.getSocketService();
         longpressing = false;
@@ -66,10 +69,10 @@ public class AddContactActivity extends AppCompatActivity {
         mNameView.addTextChangedListener(new TextWatcherAdapter() {
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
                     if (mNameView.getText().toString().length() != 0) {
-                        mSearchBtn.setIconColor(getResources().getColor(R.color.colorGreen));
+                        mSearchBtn.setTextColor(getResources().getColor(R.color.colorGreen));
                         mSearchBtn.setEnabled(true);
                     } else if (mNameView.getText().toString().length() == 0) {
-                        mSearchBtn.setIconColor(getResources().getColor(R.color.light_gray));
+                        mSearchBtn.setTextColor(getResources().getColor(R.color.text_lgray));
                         mSearchBtn.setEnabled(false);
                     }
             }
@@ -159,7 +162,7 @@ Log.e("AddContactActivity",contacts.toString());
                     mPreSearchStr = mNameView.getText().toString();
                 }
 
-                mSearchBtn.setIconColor(getResources().getColor(R.color.light_gray));
+                mSearchBtn.setTextColor(getResources().getColor(R.color.text_lgray));
 
                 if (root.getChildren().size()>0) {
                     //root.getViewHolder().getNodeItemsView().removeAllViews();
@@ -181,64 +184,6 @@ Log.e("AddContactActivity",contacts.toString());
 //                finish();
             }
         });
-
-        if (hasKitKat() && !hasLollipop()) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            ViewGroup mContentView = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-
-            //int statusBarHeight = (int)Math.ceil(25 * getResources().getDisplayMetrics().density);
-            int statusBarHeight = TitleBar.getStatusBarHeight();
-
-            View statusBarView = mContentView.getChildAt(0);
-            if (statusBarView != null && statusBarView.getLayoutParams() != null && statusBarView.getLayoutParams().height == statusBarHeight) {
-                //避免重复调用时多次添加 View
-                statusBarView.setBackgroundColor(getResources().getColor(R.color.color_titlebackground));
-                return;
-            }
-            statusBarView = new View(this);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight);
-            statusBarView.setBackgroundColor(getResources().getColor(R.color.color_titlebackground));
-            //向 ContentView 中添加假 View
-            mContentView.addView(statusBarView, 0, lp);
-        } else if (hasLollipop()) {
-            Window window = getWindow();
-            //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-//需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//设置状态栏颜色
-            window.setStatusBarColor(getResources().getColor(R.color.color_titlebackground));
-
-            ViewGroup mContentView = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-            View mChildView = mContentView.getChildAt(0);
-            if (mChildView != null) {
-                //注意不是设置 ContentView 的 FitsSystemWindows, 而是设置 ContentView 的第一个子 View . 预留出系统 View 的空间.
-                ViewCompat.setFitsSystemWindows(mChildView, true);
-            }
-        }
-
-        titleBar = (TitleBar) findViewById(R.id.title_bar_addcontact);
-
-        titleBar.setBackgroundColor(getResources().getColor(R.color.color_titlebackground));
-        titleBar.setHeight(getResources().getDimensionPixelSize(R.dimen.title_height));
-        titleBar.setLeftImageResource(R.drawable.ic_back_white_36dp);
-        titleBar.setLeftText(getResources().getString(R.string.title_back));
-        titleBar.setLeftTextColor(Color.WHITE);
-        titleBar.setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                setResult(Constants.ACTIVITY_CHANNELADDCONTACT_RESULTCANCEL, intent);
-                finish();
-            }
-        });
-
-        titleBar.setTitle(getResources().getString(R.string.title_addcontact ));
-        titleBar.setTitleColor(Color.WHITE);
-        titleBar.setSubTitleColor(Color.WHITE);
-        titleBar.setDividerColor(Color.GRAY);
 
     }
     public static boolean hasKitKat() {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.didlink.xingxing.R;
 import com.didlink.xingxing.models.Contact;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.imagepicker.GlideImagePresenter;

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.didlink.xingxing.R;
 import com.didlink.xingxing.models.Channel;
 import com.lezaizai.atv.model.TreeNode;
 

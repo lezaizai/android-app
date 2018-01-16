@@ -3,6 +3,7 @@ package com.didlink.xingxing.service;
 import android.util.Log;
 
 import com.didlink.xingxing.models.Channel;
+import com.didlink.xingxing.models.ChannelRealmObj;
 import com.didlink.xingxing.models.LoginAuth;
 import com.didlink.xingxing.models.LoginAuthRealmObj;
 
@@ -49,8 +50,11 @@ public class RealmDBService {
 
         try (Realm realm = Realm.getDefaultInstance()) {
             // No need to close the Realm instance manually
-            Log.i(TAG, "Channel count: "  + realm.where(Channel.class).count());
-            channels = realm.where(Channel.class).findAll();
+            Log.i(TAG, "Channel count: "  + realm.where(ChannelRealmObj.class).count());
+            List<ChannelRealmObj> channelRealmObjs = realm.where(ChannelRealmObj.class).findAll();
+            for (int i = 0; i<channelRealmObjs.size(); i++) {
+                channels.add(channelRealmObjs.get(i).toChannel());
+            }
             return channels;
         }
 
@@ -59,7 +63,7 @@ public class RealmDBService {
     public boolean joinChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            realm.copyToRealmOrUpdate(channel);
+            realm.copyToRealmOrUpdate(channel.toChannelRealmObj());
             realm.commitTransaction();
 
             return true;
@@ -69,7 +73,7 @@ public class RealmDBService {
     public boolean updateChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            realm.copyToRealmOrUpdate(channel);
+            realm.copyToRealmOrUpdate(channel.toChannelRealmObj());
             realm.commitTransaction();
 
             return true;
@@ -79,7 +83,7 @@ public class RealmDBService {
     public boolean removeChannel(Channel channel) {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            RealmResults<Channel> channelRealmResults =  realm.where(Channel.class).equalTo("chid", channel.getChid()).findAll();
+            RealmResults<ChannelRealmObj> channelRealmResults =  realm.where(ChannelRealmObj.class).equalTo("chid", channel.getChid()).findAll();
             channelRealmResults.deleteAllFromRealm();
             realm.commitTransaction();
 
@@ -90,38 +94,10 @@ public class RealmDBService {
     public void clearChannels() {
         try (Realm realm = Realm.getDefaultInstance()) {
             realm.beginTransaction();
-            RealmResults<Channel> channelRealmResults =  realm.where(Channel.class).findAll();
+            RealmResults<ChannelRealmObj> channelRealmResults =  realm.where(ChannelRealmObj.class).findAll();
             channelRealmResults.deleteAllFromRealm();
             realm.commitTransaction();
         }
-    }
-
-    private LoginAuth converToAuth(LoginAuthRealmObj realmObj) {
-        LoginAuth auth = new LoginAuth();
-        auth.setUid(realmObj.getUid());
-        auth.setAvatar(realmObj.getAvatar());
-        auth.setBaseurl(realmObj.getBaseurl());
-        auth.setNickname(realmObj.getNickname());
-        auth.setPassword(realmObj.getPassword());
-        auth.setStatus(realmObj.getStatus());
-        auth.setToken(realmObj.getToken());
-        auth.setUsername(realmObj.getUsername());
-
-        return auth;
-    }
-
-    private LoginAuthRealmObj converFromAuth(LoginAuth authObj) {
-        LoginAuthRealmObj realmObj = new LoginAuthRealmObj();
-        realmObj.setUid(authObj.getUid());
-        realmObj.setAvatar(authObj.getAvatar());
-        realmObj.setBaseurl(authObj.getBaseurl());
-        realmObj.setNickname(authObj.getNickname());
-        realmObj.setPassword(authObj.getPassword());
-        realmObj.setStatus(authObj.getStatus());
-        realmObj.setToken(authObj.getToken());
-        realmObj.setUsername(authObj.getUsername());
-
-        return realmObj;
     }
 
 }

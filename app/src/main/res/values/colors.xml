@@ -11,5 +11,6 @@
     <color name="black1">#7A7E83</color>
     <color name="text_color">#ffffff00</color>
     <color name="colorGreen">#287b00</color>
+    <color name="bar_color">#232325</color>
 
 </resources>

@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.didlink.xingxing.R;
 import com.lezaizai.atv.model.TreeNode;
+import com.mikepenz.iconics.typeface.IIcon;
 
 import java.util.Random;
 
@@ -49,9 +51,9 @@ public class SocialActionHolder extends TreeNode.BaseNodeViewHolder<SocialAction
     }
 
     public static class SocialActionItem {
-        public int icon;
+        public IIcon icon;
 
-        public SocialActionItem(int icon) {
+        public SocialActionItem(IIcon icon) {
             this.icon = icon;
         }
         // rest will be hardcoded

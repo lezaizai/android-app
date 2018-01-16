@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
-        <com.mikepenz.iconics.view.IconicsImageView
+        <com.mikepenz.iconics.view.IconicsTextView
             android:id="@+id/addgroup_ok"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -26,9 +26,9 @@
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            app:ico_size="24dp"
-            app:ico_color="@color/text_gray"
-            app:ico_icon="ion-plus" />
+            android:textSize="24dp"
+            android:textColor="@color/text_gray"
+            android:text="{ion-plus}" />
 
         <TextView
             android:id="@+id/addgroup_or"
@@ -41,16 +41,16 @@
             android:layout_toLeftOf="@+id/addgroup_ok"
             android:text="@string/label_or" />
 
-        <com.mikepenz.iconics.view.IconicsImageView
+        <com.mikepenz.iconics.view.IconicsTextView
             android:id="@+id/addgroup_search"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/addgroup_or"
-            app:ico_size="24dp"
-            app:ico_color="@color/text_gray"
-            app:ico_icon="ion-search" />
+            android:textSize="24dp"
+            android:textColor="@color/text_gray"
+            android:text="{ion-search}" />
 
         <FrameLayout
             android:layout_width="match_parent"

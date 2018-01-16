@@ -1,21 +1,17 @@
 package com.didlink.xingxing.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.didlink.xingxing.AppSingleton;
 import com.didlink.xingxing.R;
+import com.didlink.xingxing.common.adapter.TextWatcherAdapter;
 import com.didlink.xingxing.config.Constants;
 import com.didlink.xingxing.models.Channel;
 import com.didlink.xingxing.models.Contact;
@@ -24,16 +20,17 @@ import com.didlink.xingxing.viewholder.ChannelViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
 import com.mikepenz.iconics.view.IconicsImageView;
+import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddGroupActivity extends AppCompatActivity {
     private EditText mNameView;
-    private IconicsImageView mAddButton;
-    private IconicsImageView mSearchButton;
+    private IconicsTextView mAddButton;
+    private IconicsTextView mSearchButton;
     private String mProfile;
-    private SocketService mCtrlmessage;
+    //private SocketService mCtrlmessage;
     private List<Channel> newchannels;
 
     private AndroidTreeView tView;
@@ -55,6 +52,7 @@ public class AddGroupActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
         }
+/*
         mCtrlmessage = app.getSocketService();
 
         mCtrlmessage.setAddChannelListener(new SocketService.OnAddChannelListener(){
@@ -65,7 +63,10 @@ public class AddGroupActivity extends AppCompatActivity {
                     return;
                 }
                 List<Contact> members = new ArrayList<Contact>();
-                members.add(new Contact(app.getUserid(),app.getLoginname(),app.getNickname(),app.getAvatar()));
+                members.add(new Contact(AppSingleton.getInstance().getLoginAuth().getUid(),
+                        AppSingleton.getInstance().getLoginAuth().getUsername(),
+                        AppSingleton.getInstance().getLoginAuth().getNickname(),
+                        AppSingleton.getInstance().getLoginAuth().getAvatar()));
 
                 Intent intent = new Intent();
                 intent.putExtra("name", mNameView.getText().toString());
@@ -146,19 +147,19 @@ public class AddGroupActivity extends AppCompatActivity {
             };
 
         });
-
+*/
         mNameView = (EditText) findViewById(R.id.channel_nameinput);
-        mAddButton = (PrintView) findViewById(R.id.addgroup_ok);
-        mSearchButton = (PrintView) findViewById(R.id.addgroup_search);
+        mAddButton = (IconicsTextView) findViewById(R.id.addgroup_ok);
+        mSearchButton = (IconicsTextView) findViewById(R.id.addgroup_search);
 
         mNameView.addTextChangedListener(new TextWatcherAdapter() {
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
                     if (mNameView.getText().toString().length() != 0) {
-                         mAddButton.setIconColor(getResources().getColor(R.color.colorGreen));
-                        mSearchButton.setIconColor(getResources().getColor(R.color.colorGreen));
+                         mAddButton.setTextColor(getResources().getColor(R.color.colorGreen));
+                        mSearchButton.setTextColor(getResources().getColor(R.color.colorGreen));
                     } else if (mNameView.getText().toString().length() == 0) {
-                        mAddButton.setIconColor(getResources().getColor(R.color.light_gray));
-                        mSearchButton.setIconColor(getResources().getColor(R.color.light_gray));
+                        mAddButton.setTextColor(getResources().getColor(R.color.text_lgray));
+                        mSearchButton.setTextColor(getResources().getColor(R.color.text_lgray));
                     }
             }
 
@@ -175,9 +176,9 @@ public class AddGroupActivity extends AppCompatActivity {
                 } else {
                     mPreAddStr = mNameView.getText().toString();
                 }
-                mSearchButton.setIconColor(getResources().getColor(R.color.light_gray));
-                mAddButton.setIconColor(getResources().getColor(R.color.light_gray));
-                mCtrlmessage.addChannel(mNameView.getText().toString(),app.getUserid());
+                mSearchButton.setTextColor(getResources().getColor(R.color.text_lgray));
+                mAddButton.setTextColor(getResources().getColor(R.color.text_lgray));
+                //mCtrlmessage.addChannel(mNameView.getText().toString(),AppSingleton.getInstance().getLoginAuth().getUid());
             }
         });
 
@@ -192,16 +193,16 @@ public class AddGroupActivity extends AppCompatActivity {
                 } else {
                     mPreSearchStr = mNameView.getText().toString();
                 }
-                mSearchButton.setIconColor(getResources().getColor(R.color.light_gray));
-                mAddButton.setIconColor(getResources().getColor(R.color.light_gray));
+                mSearchButton.setTextColor(getResources().getColor(R.color.text_lgray));
+                mAddButton.setTextColor(getResources().getColor(R.color.text_lgray));
 
                 if (root.getChildren().size()>0) {
                     root = TreeNode.root();
                     tView.setRoot(root);
                     containerView.removeAllViews();
-                    titleBar.setTitle(getResources().getString(R.string.title_addgrp));
+                    //titleBar.setTitle(getResources().getString(R.string.title_addgrp));
                 }
-                mCtrlmessage.searchChannel(mNameView.getText().toString(),app.getUserid());
+                //mCtrlmessage.searchChannel(mNameView.getText().toString(),app.getUserid());
             }
         });
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import com.didlink.xingxing.AppSingleton;
 import com.didlink.xingxing.R;
 import com.didlink.xingxing.activity.AddContactActivity;
 import com.didlink.xingxing.activity.AddGroupActivity;
@@ -29,6 +30,7 @@ import com.didlink.xingxing.viewholder.SocialActionHolder;
 import com.didlink.xingxing.viewholder.SocialViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class ChannelFragment extends Fragment {
     private ViewGroup containerView;
     private TitlePopup titlePopup;
     private List<Channel> newchannels;
+    private Channel channelonaction;
 
     public static ChannelFragment newInstance() {
         ChannelFragment fragment = new ChannelFragment();
@@ -159,7 +162,7 @@ public class ChannelFragment extends Fragment {
 
 
     private void addChannel(TreeNode nodeChannel, Channel channel) {
-        TreeNode socialNetworks = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_people, channel.getName())).setViewHolder(new HeaderHolder(getActivity()));
+        TreeNode socialNetworks = new TreeNode(new IconTreeItemHolder.IconTreeItem(Ionicons.Icon.ion_android_add, channel.getName())).setViewHolder(new HeaderHolder(getActivity()));
         for (Contact c : channel.getContacts()) {
             addContact(socialNetworks, c);
         }
@@ -167,7 +170,7 @@ public class ChannelFragment extends Fragment {
     }
 
     private void addContact(TreeNode nodeChannel, Contact contact) {
-        TreeNode facebook = new TreeNode(new SocialViewHolder.SocialItem(R.string.ic_post_facebook)).setViewHolder(new SocialViewHolder(getActivity()));
+        TreeNode facebook = new TreeNode(new SocialViewHolder.SocialItem(Ionicons.Icon.ion_ios_people)).setViewHolder(new SocialViewHolder(getActivity()));
         SocialActionHolder actionholder = new SocialActionHolder(getActivity());
         actionholder.setSocialActionListener(new SocialActionHolder.OnSocialActionListener(){
             @Override
@@ -177,7 +180,7 @@ public class ChannelFragment extends Fragment {
             }
 
         });
-        TreeNode action = new TreeNode(new SocialActionHolder.SocialActionItem(R.string.ic_add)).setViewHolder(actionholder);
+        TreeNode action = new TreeNode(new SocialActionHolder.SocialActionItem(Ionicons.Icon.ion_person_add)).setViewHolder(actionholder);
         nodeChannel.addChildren(facebook,action);
     }
 
@@ -233,7 +236,7 @@ public class ChannelFragment extends Fragment {
     public void refreshChannelV() {
         super.onResume();
 
-        List<Channel> channels = app.getChannels();
+        List<Channel> channels = AppSingleton.getInstance().getmRealmDBService().getChannels();
         //root.getViewHolder().getNodeItemsView().removeAllViews();
         root = TreeNode.root();
         if (channels != null && channels.size() > 0) {
@@ -289,9 +292,9 @@ public class ChannelFragment extends Fragment {
                     intent.putExtra("channel", channelonaction.getChid());
                     startActivityForResult(intent, REQUEST_ADDCONTACT);
                     break;
-                case 1:// 扫一扫
+                case 1://
                     List<Contact> contacts = channelonaction.getContacts();
-                    if (contacts != null && contacts.size() > 0) {
+/*                    if (contacts != null && contacts.size() > 0) {
                         String[] callers = new String[SocketIORTCClient.MAX_PEER];
                         for (int j = 0; j < SocketIORTCClient.MAX_PEER; j++) {
                             callers[j] = "";
@@ -318,11 +321,11 @@ public class ChannelFragment extends Fragment {
                             getContext().startActivity(intent1);
                         }
                     }
-                    break;
+*/                    break;
                 case 2:
-                    mCtrlmessage.leaveChannel(channelonaction.getChid(),app.getUserid());
+//                    mCtrlmessage.leaveChannel(channelonaction.getChid(),app.getUserid());
                     break;
-                case 3:// 收钱
+                case 3://
 //                    Utils.start_Activity(MainActivity.this, GetMoneyActivity.class);
                     break;
                 default:

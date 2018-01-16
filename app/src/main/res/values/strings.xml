@@ -95,6 +95,7 @@
     <string name="contactsize">Contacts</string>
     <string name="channel_pop_addcontact">Add Contact</string>
     <string name="channel_pop_exitchannel">Exit Channel</string>
+    <string name="channel_pop_video">Video Call</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

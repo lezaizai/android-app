@@ -29,7 +29,7 @@ public class AddContactActivity extends AppCompatActivity {
     private EditText mNameView;
     private String mProfile;
     private IconicsTextView mSearchBtn;
-    private SocketService mCtrlmessage;
+    //private SocketService mCtrlmessage;
     private AndroidTreeView tView;
     private TreeNode root;
     private ViewGroup containerView;
@@ -48,7 +48,7 @@ public class AddContactActivity extends AppCompatActivity {
         mNameView = (EditText) findViewById(R.id.search_nameinput);
         mSearchBtn = (IconicsTextView) findViewById(R.id.search_contact);
         mPreSearchStr = "";
-        mCtrlmessage = app.getSocketService();
+        //mCtrlmessage = app.getSocketService();
         longpressing = false;
 
         if (savedInstanceState == null) {
@@ -78,7 +78,7 @@ public class AddContactActivity extends AppCompatActivity {
             }
 
         });
-
+/*
         mCtrlmessage.setSearchrContactListener(new SocketService.OnSearContactListener(){
             @Override
             public void onSearchResult(List<Contact> contacts){
@@ -149,7 +149,7 @@ Log.e("AddContactActivity",contacts.toString());
             };
 
         });
-
+*/
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,7 +175,7 @@ Log.e("AddContactActivity",contacts.toString());
                     //containerView.addView(tView.getView());
                 }
 
-                mCtrlmessage.searchContact(mNameView.getText().toString());
+//                mCtrlmessage.searchContact(mNameView.getText().toString());
 
 //                Intent intent = new Intent();
 //                intent.putExtra("name", mNameView.getText().toString());

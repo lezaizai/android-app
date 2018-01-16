@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by xingxing on 2016/7/10.
  */
-public class Contact {
+public class ContactRealmObj extends RealmObject {
     @PrimaryKey
     private long uid;
 
@@ -15,15 +15,15 @@ public class Contact {
     private String nickname;
     private String gravatarpicture;
 
-    public Contact(){}
+    public ContactRealmObj(){}
 
-    public Contact(long uid, String username, String nickname) {
+    public ContactRealmObj(long uid, String username, String nickname) {
         this.uid = uid;
         this.username = username;
         this.nickname = nickname;
     }
 
-    public Contact(long uid, String username, String nickname, String gravatarpicture) {
+    public ContactRealmObj(long uid, String username, String nickname, String gravatarpicture) {
         this.uid = uid;
         this.username = username;
         this.nickname = nickname;
@@ -58,11 +58,12 @@ public class Contact {
         return this.gravatarpicture;
     }
 
-    public ContactRealmObj toContactRealmObj() {
-        ContactRealmObj contactObj = new ContactRealmObj(this.getUid(),
+    public Contact toContact() {
+        Contact contact = new Contact(this.getUid(),
                 this.getUsername(),
                 this.getNickname(),
                 this.getGravatarpicture());
-        return contactObj;
+        return contact;
     }
+
 }

@@ -274,11 +274,10 @@ public class SocketService {
                     if (users != null && users.length() != 0) {
                         for (int i = 0; i < users.length(); i++) {
                             JSONObject user = users.getJSONObject(i);
-                            Contact contact = new Contact(user.getString("uid"),
+                            Contact contact = new Contact(user.getLong("uid"),
                                     user.getString("username"),
                                     user.getString("nickname"),
-                                    user.getString("gravatarpicture"),
-                                    user.getString("streamid"));
+                                    user.getString("gravatarpicture"));
                             contacts.add(contact);
                         }
                     }
@@ -359,7 +358,7 @@ public class SocketService {
                             Channel channel = new Channel(jchannel.getString("chid"), Constants.CHANNEL_TYPE_SOCIAL, jchannel.getString("name"));
                             channel.setContacts_num(jchannel.getInt("membercnt"));
                             JSONObject jowner = jchannel.getJSONObject("owner");
-                            Contact owner = new Contact(jowner.getString("uid"),
+                            Contact owner = new Contact(jowner.getLong("uid"),
                                     jowner.getString("username"),
                                     jowner.getString("nickname"),
                                     jowner.getString("gravatarpicture"));
@@ -406,7 +405,7 @@ public class SocketService {
                 jchannel = data.getJSONObject("channel");
                 channel = new Channel(jchannel.getString("chid"), Constants.CHANNEL_TYPE_SOCIAL, jchannel.getString("name"));
                 JSONObject jowner = jchannel.getJSONObject("owner");
-                Contact owner = new Contact(jowner.getString("uid"),
+                Contact owner = new Contact(jowner.getLong("uid"),
                         jowner.getString("username"),
                         jowner.getString("nickname"),
                         jowner.getString("gravatarpicture"));
@@ -415,7 +414,7 @@ public class SocketService {
                 if (jcontacts != null && jcontacts.length() != 0) {
                     for (int i = 0; i < jcontacts.length(); i++) {
                         JSONObject jcontact = jcontacts.getJSONObject(i);
-                        Contact contact = new Contact(jcontact.getString("uid"),
+                        Contact contact = new Contact(jcontact.getLong("uid"),
                                 jcontact.getString("username"),
                                 jcontact.getString("nickname"),
                                 jcontact.getString("gravatarpicture"));
@@ -494,7 +493,7 @@ public class SocketService {
                             Channel channel = new Channel(jchannel.getString("chid"), Constants.CHANNEL_TYPE_SOCIAL, jchannel.getString("name"));
                             channel.setContacts_num(jchannel.getInt("membercnt"));
                             JSONObject jowner = jchannel.getJSONObject("owner");
-                            Contact owner = new Contact(jowner.getString("uid"),
+                            Contact owner = new Contact(jowner.getLong("uid"),
                                     jowner.getString("username"),
                                     jowner.getString("nickname"),
                                     jowner.getString("gravatarpicture"));
@@ -503,11 +502,10 @@ public class SocketService {
                             if (jcontacts != null && jcontacts.length() != 0) {
                                 for (int j = 0; j < jcontacts.length(); j++) {
                                     JSONObject jcontact = jcontacts.getJSONObject(j);
-                                    Contact contact = new Contact(jcontact.getString("uid"),
+                                    Contact contact = new Contact(jcontact.getLong("uid"),
                                             jcontact.getString("username"),
                                             jcontact.getString("nickname"),
-                                            jcontact.getString("gravatarpicture"),
-                                            jcontact.getString("streamid"));
+                                            jcontact.getString("gravatarpicture"));
                                     channel.addContact(contact);
                                 }
                             }

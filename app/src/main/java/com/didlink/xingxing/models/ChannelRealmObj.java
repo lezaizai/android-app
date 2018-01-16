@@ -1,6 +1,5 @@
 package com.didlink.xingxing.models;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -12,21 +11,21 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by xingxing on 2016/7/10.
  */
-public class Channel {
+public class ChannelRealmObj extends RealmObject {
     @PrimaryKey
     private String chid;
 
     private int type;
     private String name;
-    private Channel parent;
-    private Contact owner;
-    private RealmList<Channel> children;
-    private RealmList<Contact> contacts;
+    private ChannelRealmObj parent;
+    private ContactRealmObj owner;
+    private RealmList<ChannelRealmObj> children;
+    private RealmList<ContactRealmObj> contacts;
     private int contacts_num;
 
-    public Channel(){}
+    public ChannelRealmObj(){}
 
-    public Channel(String chid, int type, String name) {
+    public ChannelRealmObj(String chid, int type, String name) {
         this.chid = chid;
         this.type = type;
         this.name = name;
@@ -53,16 +52,16 @@ public class Channel {
     public String getName() {
         return this.name;
     }
-    public Channel getParent() {
+    public ChannelRealmObj getParent() {
         return this.parent;
     }
-    public void setParent(Channel realmObj) {
+    public void setParent(ChannelRealmObj realmObj) {
         this.parent = realmObj;
     }
-    public void setOwner(Contact owner) {
+    public void setOwner(ContactRealmObj owner) {
         this.owner = owner;
     }
-    public Contact getOwner() {
+    public ContactRealmObj getOwner() {
         return this.owner;
     }
     public void setContacts_num(int num) {
@@ -72,33 +71,33 @@ public class Channel {
         return this.contacts_num;
     }
 
-    public Channel addChild(Channel childChannel) {
+    public ChannelRealmObj addChild(ChannelRealmObj childChannel) {
         childChannel.parent = this;
         children.add(childChannel);
         return this;
     }
 
-    public Channel addChild(int index, Channel childChannel) {
+    public ChannelRealmObj addChild(int index, ChannelRealmObj childChannel) {
         childChannel.parent = this;
         children.add(index, childChannel);
         return this;
     }
 
-    public Channel addChildren(Channel... channels) {
-        for (Channel n : channels) {
+    public ChannelRealmObj addChildren(ChannelRealmObj... channels) {
+        for (ChannelRealmObj n : channels) {
             addChild(n);
         }
         return this;
     }
 
-    public Channel addChildren(Collection<Channel> channels) {
-        for (Channel n : channels) {
+    public ChannelRealmObj addChildren(Collection<ChannelRealmObj> channels) {
+        for (ChannelRealmObj n : channels) {
             addChild(n);
         }
         return this;
     }
 
-    public int deleteChild(Channel child) {
+    public int deleteChild(ChannelRealmObj child) {
         for (int i = 0; i < children.size(); i++) {
             if (child.chid == children.get(i).chid) {
                 children.remove(i);
@@ -108,7 +107,7 @@ public class Channel {
         return -1;
     }
 
-    public Channel freshChannel(Channel child) {
+    public ChannelRealmObj freshChannel(ChannelRealmObj child) {
         for (int i = 0; i < children.size(); i++) {
             if (child.chid == children.get(i).chid) {
                 children.remove(i);
@@ -119,29 +118,29 @@ public class Channel {
         return this;
     }
 
-    public List<Channel> getChildren() {
+    public List<ChannelRealmObj> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
-    public Channel addContact(Contact contact) {
+    public ChannelRealmObj addContact(ContactRealmObj contact) {
         contacts.add(contact);
         return this;
     }
 
-    public Channel addContact(int index, Contact contact) {
+    public ChannelRealmObj addContact(int index, ContactRealmObj contact) {
         contacts.add(index, contact);
         return this;
     }
 
-    public Channel addContacts(Contact... contacts) {
-        for (Contact n : contacts) {
+    public ChannelRealmObj addContacts(ContactRealmObj... contacts) {
+        for (ContactRealmObj n : contacts) {
             addContact(n);
         }
         return this;
     }
 
-    public Channel addContacts(Collection<Contact> contacts) {
-        for (Contact n : contacts) {
+    public ChannelRealmObj addContacts(Collection<ContactRealmObj> contacts) {
+        for (ContactRealmObj n : contacts) {
             addContact(n);
         }
         return this;
@@ -157,7 +156,7 @@ public class Channel {
         return -1;
     }
 
-    public int freshChannel(Contact contact) {
+    public int freshChannel(ContactRealmObj contact) {
         for (int i = 0; i < contacts.size(); i++) {
             if (contact.getUid() == contacts.get(i).getUid()) {
                 contacts.remove(i);
@@ -172,26 +171,26 @@ public class Channel {
         return 0;
     }
 
-    public List<Contact> getContacts() {
+    public List<ContactRealmObj> getContacts() {
         return Collections.unmodifiableList(contacts);
     }
 
-    public ChannelRealmObj toChannelRealmObj() {
-        ChannelRealmObj channelObj = new ChannelRealmObj();
-        channelObj.setChid(this.getChid());
-        channelObj.setType(this.getType());
-        channelObj.setParent(this.getParent().toChannelRealmObj());
-        channelObj.setOwner(this.getOwner().toContactRealmObj());
+    public Channel toChannel() {
+        Channel channel = new Channel();
+        channel.setChid(this.getChid());
+        channel.setType(this.getType());
+        channel.setParent(this.getParent().toChannel());
+        channel.setOwner(this.getOwner().toContact());
 
         int childrens = this.getChildren().size();
         for (int i = 0; i < childrens; i++) {
-            channelObj.addChild(this.getChildren().get(i).toChannelRealmObj());
+            channel.addChild(this.getChildren().get(i).toChannel());
         }
         for (int i = 0; i < this.contacts_num; i++) {
-            channelObj.addContact(this.getContacts().get(i).toContactRealmObj());
+            channel.addContact(this.getContacts().get(i).toContact());
         }
-        channelObj.setContacts_num(this.getContacts_num());
+        channel.setContacts_num(this.getContacts_num());
 
-        return channelObj;
+        return channel;
     }
 }

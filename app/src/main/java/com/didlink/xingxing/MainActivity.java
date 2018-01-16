@@ -1,5 +1,6 @@
 package com.didlink.xingxing;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.util.Log;
@@ -7,8 +8,10 @@ import android.util.Log;
 import com.didlink.systembar.Base.BaseActivity;
 import com.didlink.systembar.Tools.StatusBarManager;
 import com.didlink.tabbarlib.TabbarsIndicator;
+import com.didlink.xingxing.fragment.ChannelFragment;
+import com.didlink.xingxing.fragment.ProfileFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ChannelFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
     public static final String TAG = MainActivity.class.getName();
 
     @Override
@@ -61,4 +64,8 @@ public class MainActivity extends BaseActivity {
         AppSingleton.getInstance().loadMediaData(getApplicationContext(), null);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

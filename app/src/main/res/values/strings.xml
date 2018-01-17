@@ -85,11 +85,14 @@
     <string name="fragment_title_channel">Channel</string>
     <string name="fragment_title_profile">Profile</string>
     <string name="fragment_title_look">Channel</string>
+    <string name="bottom_map">Hot Map</string>
     <string name="bottom_channel">Channel</string>
+    <string name="bottom_discovery">Discovery</string>
+    <string name="bottom_profile">Profile</string>
     <string name="channel_groupname">Channel Name</string>
     <string name="Channel_MyChannel">My Channels</string>
     <string name="Channel_PublicChannel">Public Channels</string>
-    <string name="title_addgrp">Add Channel</string>
+    <string name="activity_title_addgrp">Add Channel</string>
     <string name="title_addgrp_join">Add Channel(long press to join)</string>
     <string name="channel_contactname">Search Contact</string>
     <string name="title_addcontact">Add Contact</string>

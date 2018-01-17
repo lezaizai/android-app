@@ -1,5 +1,6 @@
 package com.didlink.systembar.Base;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -99,6 +100,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void setTitleNavigationIcon(int iconRes) {
         toolbar.setNavigationIcon(iconRes);
+    }
+
+    public void setTitleNavigationIcon(Drawable drawable) {
+        toolbar.setNavigationIcon(drawable);
     }
 
     protected void hideToolbar() {

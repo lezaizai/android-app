@@ -1,31 +1,26 @@
 package com.didlink.xingxing.activity;
 
-import android.content.Intent;
-import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.didlink.xingxing.AppSingleton;
+import com.didlink.systembar.Base.BaseActivity;
+import com.didlink.systembar.Tools.StatusBarManager;
 import com.didlink.xingxing.R;
 import com.didlink.xingxing.common.adapter.TextWatcherAdapter;
-import com.didlink.xingxing.config.Constants;
 import com.didlink.xingxing.models.Channel;
-import com.didlink.xingxing.models.Contact;
-import com.didlink.xingxing.service.SocketService;
-import com.didlink.xingxing.viewholder.ChannelViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
-import com.mikepenz.iconics.view.IconicsImageView;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.view.IconicsTextView;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AddGroupActivity extends AppCompatActivity {
+public class AddGroupActivity extends BaseActivity {
     private EditText mNameView;
     private IconicsTextView mAddButton;
     private IconicsTextView mSearchButton;
@@ -43,7 +38,20 @@ public class AddGroupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_group);
+
+        setTitleBgColor(R.color.deepgrey);
+        setToolbarTitleTv(R.string.activity_title_addgrp);
+        setTitleNavigationIcon(new IconicsDrawable(this)
+                .icon(Ionicons.Icon.ion_arrow_left_c)
+                .color(Color.WHITE)
+                .sizeDp(18));
+
+        new StatusBarManager.builder(this)
+                .setStatusBarColor(R.color.deepgrey)
+                .setTintType(StatusBarManager.TintType.PURECOLOR)
+                .setAlpha(0)
+                .create();
+
         containerView = (ViewGroup) findViewById(R.id.addgroup_container);
         mPreSearchStr = "";
         mPreAddStr = "";
@@ -211,6 +219,16 @@ public class AddGroupActivity extends AppCompatActivity {
         tView.setDefaultAnimation(true);
         tView.setDefaultContainerStyle(R.style.TreeNodeStyleDivided, true);
         containerView.addView(tView.getView());
+
+    }
+
+    @Override
+    public int getContentViewID() {
+        return R.layout.activity_add_group;
+    }
+
+    @Override
+    public void initViews() {
 
     }
 }

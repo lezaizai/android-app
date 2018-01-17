@@ -18,18 +18,18 @@
     <com.didlink.tabbarlib.TabbarsIndicator
         android:id="@+id/alphaIndicator"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="58dp"
         android:orientation="horizontal">
 
         <com.didlink.tabbarlib.TabbarView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:padding="4dp"
             app:tabIconNormal="@mipmap/home_normal"
             app:tabIconSelected="@mipmap/home_selected"
-            app:tabText="Wechat"
-            app:tabTextSize="13sp"
+            app:tabText="@string/bottom_map"
+            app:tabTextSize="15sp"
             app:textColorNormal="#999999"
             app:textColorSelected="#46c01b" />
 
@@ -37,11 +37,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:padding="4dp"
             app:tabIconNormal="@mipmap/category_normal"
             app:tabIconSelected="@mipmap/category_selected"
-            app:tabText="Contact"
-            app:tabTextSize="13sp"
+            app:tabText="@string/bottom_channel"
+            app:tabTextSize="15sp"
             app:textColorNormal="#999999"
             app:textColorSelected="#46c01b" />
 
@@ -49,11 +49,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:padding="4dp"
             app:tabIconNormal="@mipmap/service_normal"
             app:tabIconSelected="@mipmap/service_selected"
-            app:tabText="Discovery"
-            app:tabTextSize="13sp"
+            app:tabText="@string/bottom_discovery"
+            app:tabTextSize="15sp"
             app:textColorNormal="#999999"
             app:textColorSelected="#46c01b" />
 
@@ -62,11 +62,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:padding="4dp"
             app:tabIconNormal="@mipmap/mine_normal"
             app:tabIconSelected="@mipmap/mine_selected"
-            app:tabText="Me"
-            app:tabTextSize="13sp"
+            app:tabText="@string/bottom_profile"
+            app:tabTextSize="15sp"
             app:textColorNormal="#999999"
             app:textColorSelected="#46c01b" />
     </com.didlink.tabbarlib.TabbarsIndicator>

@@ -11,8 +11,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:minHeight="28dp"
+        android:layout_height="30dp"
+        android:minHeight="30dp"
         app:popupTheme="@style/ToolbarPopupTheme"
         app:subtitleTextAppearance="@style/ToolbarTitleStyle"
         app:theme="@style/ToolbarTheme"
@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:text="自定义"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
     </android.support.v7.widget.Toolbar>
 
     <FrameLayout

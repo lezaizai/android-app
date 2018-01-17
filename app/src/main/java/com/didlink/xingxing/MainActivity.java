@@ -1,5 +1,9 @@
 package com.didlink.xingxing;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +17,18 @@ import com.didlink.systembar.Base.BaseActivity;
 import com.didlink.systembar.Tools.StatusBarManager;
 import com.didlink.systembar.Tools.ToastTool;
 import com.didlink.tabbarlib.TabbarsIndicator;
+import com.didlink.xingxing.activity.AddGroupActivity;
 import com.didlink.xingxing.fragment.ChannelFragment;
 import com.didlink.xingxing.fragment.ProfileFragment;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 
 public class MainActivity extends BaseActivity implements ChannelFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         MainAdapter.OnPageChangeListener {
+    private static final int REQ_ADDGROUP = 0;
     public static final String TAG = MainActivity.class.getName();
+
     private MenuItem menuItem;
     private TabbarsIndicator tabbarsIndicator;
 
@@ -33,6 +42,12 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
         getToolbar().inflateMenu(R.menu.fragment_channel_main);
         menuItem = getToolbar().getMenu().findItem(R.id.menu_1);
         menuItem.setVisible(false);
+
+        menuItem.setIcon(new IconicsDrawable(this)
+                .icon(Ionicons.Icon.ion_plus_round)
+                .color(Color.WHITE)
+                .sizeDp(18));
+
 
         new StatusBarManager.builder
                 (this)
@@ -86,6 +101,10 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
     public boolean callbackOnMenuAction(MenuItem item) {
         if ( R.id.menu_1 == item.getItemId()) {
             ToastTool.showNativeShortToast(this, "TEST");
+
+            Intent intent = new Intent(getApplicationContext(), AddGroupActivity.class);
+            intent.putExtra("profile", "publicHolder");
+            startActivityForResult(intent, REQ_ADDGROUP);
         }
         return true;
     }
@@ -109,5 +128,23 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
             menuItem.setVisible(false);
             tabbarsIndicator.removeAllBadge();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == REQ_ADDGROUP) {
+
+            }/*else if(requestCode == REQ_IMAGE_CROP){
+                Bitmap bmp = (Bitmap)data.getExtras().get("bitmap");
+                Log.i(TAG,"-----"+bmp.getRowBytes());
+            }*/
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            if (requestCode == REQ_ADDGROUP) {
+
+            }
+        }
+
     }
 }

@@ -44,6 +44,14 @@
             android:name=".activity.ImagesGridActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity
+            android:name=".activity.AddGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
+        <activity
+            android:name=".activity.AddContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
 
     </application>
 

@@ -21,15 +21,15 @@ import java.util.List;
 public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
     private List<Fragment> fragments = new ArrayList<>();
     private String[] titles = {"微信", "通讯录", "发现", "我"};
+    OnPageChangeListener pageChangeListener;
 
     public MainAdapter(FragmentManager fm) {
         super(fm);
+        fragments.add(MapFragment.newInstance(titles[0]));
         fragments.add(ChannelFragment.newInstance());
+        fragments.add(TextFragment.newInstance(titles[3]));
         fragments.add(ProfileFragment.newInstance(titles[2],titles[2]));
         //fragments.add(TextFragment.newInstance(titles[0]));
-        fragments.add(MapFragment.newInstance(titles[0]));
-        //fragments.add(SettingsFragment.newInstance());
-        fragments.add(TextFragment.newInstance(titles[3]));
     }
 
     @Override
@@ -54,12 +54,8 @@ public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
-        if (0 == position) {
-            AppSingleton.getInstance().getTabbarsIndicator().getTabView(0).showNumber(AppSingleton.getInstance().getTabbarsIndicator().getTabView(0).getBadgeNumber() - 1);
-        } else if (2 == position) {
-            AppSingleton.getInstance().getTabbarsIndicator().getCurrentItemView().removeShow();
-        } else if (3 == position) {
-            AppSingleton.getInstance().getTabbarsIndicator().removeAllBadge();
+        if (this.pageChangeListener != null) {
+            this.pageChangeListener.onPageChange(position);
         }
     }
 
@@ -67,4 +63,14 @@ public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPag
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    public void setPageChangeListener(OnPageChangeListener pageChangeListener) {
+        this.pageChangeListener = pageChangeListener;
+    }
+
+    public interface OnPageChangeListener {
+        // TODO: Update argument type and name
+        void onPageChange(int position);
+    }
+
 }

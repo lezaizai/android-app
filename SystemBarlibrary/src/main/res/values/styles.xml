@@ -11,7 +11,7 @@
     <!-- toolbar主题样式 -->
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- menu中showAsAction设置为ifRoom和always的item项（即操作栏上）字体颜色 -->
-        <item name="actionMenuTextColor">#00ad56</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
         <!-- menu中showAsAction设置为ifRoom和always的item项（即操作栏上）字体大小 -->
         <item name="actionMenuTextAppearance">@style/ToolbarMenuTextSize</item>
         <!-- 设置标题、menu中所有item字体颜色 -->

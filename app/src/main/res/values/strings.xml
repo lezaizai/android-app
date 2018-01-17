@@ -81,7 +81,10 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
-    <string name="title_channel">Channel</string>
+    <string name="fragment_title_map">Map</string>
+    <string name="fragment_title_channel">Channel</string>
+    <string name="fragment_title_profile">Profile</string>
+    <string name="fragment_title_look">Channel</string>
     <string name="bottom_channel">Channel</string>
     <string name="channel_groupname">Channel Name</string>
     <string name="Channel_MyChannel">My Channels</string>

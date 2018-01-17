@@ -16,7 +16,6 @@ public class AppSingleton{
     private LoginService mLoginService;
     private UploadHandlerThread mUploadThread;
     private JmdnsService mJmdnsService;
-    private TabbarsIndicator mTabbarsIndicator;
     private RealmDBService mRealmDBService;
 
     private static AppSingleton mInstance;
@@ -66,13 +65,6 @@ public class AppSingleton{
             this.mRealmDBService = new RealmDBService();
         }
         return mRealmDBService;
-    }
-
-    public void setTabbarsIndicator(TabbarsIndicator tabbarsIndicator) {
-        mTabbarsIndicator = tabbarsIndicator;
-    }
-    public TabbarsIndicator getTabbarsIndicator() {
-        return mTabbarsIndicator;
     }
 
     public void findService() {

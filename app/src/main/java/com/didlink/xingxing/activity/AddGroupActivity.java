@@ -213,11 +213,4 @@ public class AddGroupActivity extends AppCompatActivity {
         containerView.addView(tView.getView());
 
     }
-    public static boolean hasKitKat() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    }
-
-    public static boolean hasLollipop() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
 }

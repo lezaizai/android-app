@@ -16,7 +16,9 @@ public class ChannelRealmObj extends RealmObject {
     private String chid;
 
     private int type;
+    private int status;
     private String name;
+    private String description;
     private ChannelRealmObj parent;
     private ContactRealmObj owner;
     private RealmList<ChannelRealmObj> children;
@@ -45,6 +47,12 @@ public class ChannelRealmObj extends RealmObject {
     public int getType() {
         return this.type;
     }
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    public int getStatus() {
+        return this.status;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -52,6 +60,13 @@ public class ChannelRealmObj extends RealmObject {
     public String getName() {
         return this.name;
     }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+
     public ChannelRealmObj getParent() {
         return this.parent;
     }
@@ -179,6 +194,7 @@ public class ChannelRealmObj extends RealmObject {
         Channel channel = new Channel();
         channel.setChid(this.getChid());
         channel.setType(this.getType());
+        channel.setStatus(this.getStatus());
         channel.setParent(this.getParent().toChannel());
         channel.setOwner(this.getOwner().toContact());
 

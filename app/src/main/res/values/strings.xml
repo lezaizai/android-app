@@ -83,8 +83,8 @@
 
     <string name="fragment_title_map">Map</string>
     <string name="fragment_title_channel">Channel</string>
+    <string name="fragment_title_look">Discovery</string>
     <string name="fragment_title_profile">Profile</string>
-    <string name="fragment_title_look">Channel</string>
     <string name="bottom_map">Hot Map</string>
     <string name="bottom_channel">Channel</string>
     <string name="bottom_discovery">Discovery</string>

@@ -94,7 +94,7 @@ public class LoginAuth {
 
     public Contact toContact() {
         Contact contact = new Contact(this.getUid(), this.getUsername(), this.getNickname());
-        contact.setGravatarpicture(this.getAvatar());
+        contact.setAvatar(this.getAvatar());
         return contact;
     }
 

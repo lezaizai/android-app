@@ -17,12 +17,12 @@ public class Channel {
     private int status;
     private String name;
     private String description;
-    private Channel parent;
+    private int contacts_num;
     private Contact owner;
+    private Channel parent;
     private List<Channel> children;
     private List<Contact> contacts;
     private List<Topic> topics;
-    private int contacts_num;
 
     public Channel(){}
 

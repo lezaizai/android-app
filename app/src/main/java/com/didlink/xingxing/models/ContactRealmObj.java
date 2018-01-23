@@ -10,10 +10,11 @@ public class ContactRealmObj extends RealmObject {
     @PrimaryKey
     private long uid;
 
+    private byte status;
     private boolean online;
     private String username;
     private String nickname;
-    private String gravatarpicture;
+    private String avatar;
 
     public ContactRealmObj(){}
 
@@ -23,15 +24,21 @@ public class ContactRealmObj extends RealmObject {
         this.nickname = nickname;
     }
 
-    public ContactRealmObj(long uid, String username, String nickname, String gravatarpicture) {
+    public ContactRealmObj(long uid, String username, String nickname, String avatar) {
         this.uid = uid;
         this.username = username;
         this.nickname = nickname;
-        this.gravatarpicture = gravatarpicture;
+        this.avatar = avatar;
     }
 
     public long getUid(){
         return this.uid;
+    }
+    public byte getStatus() {
+        return status;
+    }
+    public void setStatus(byte status) {
+        this.status = status;
     }
     public void setOnline(boolean online) {
         this.online = online;
@@ -51,18 +58,18 @@ public class ContactRealmObj extends RealmObject {
     public String getNickname(){
         return this.nickname;
     }
-    public void setGravatarpicture(String gravatarpicture){
-        this.gravatarpicture = gravatarpicture;
+    public void setAvatar(String avatar){
+        this.avatar = avatar;
     }
-    public String getGravatarpicture(){
-        return this.gravatarpicture;
+    public String getAvatar(){
+        return this.avatar;
     }
 
     public Contact toContact() {
         Contact contact = new Contact(this.getUid(),
                 this.getUsername(),
                 this.getNickname(),
-                this.getGravatarpicture());
+                this.getAvatar());
         return contact;
     }
 

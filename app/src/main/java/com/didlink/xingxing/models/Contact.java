@@ -7,10 +7,11 @@ package com.didlink.xingxing.models;
 public class Contact {
     private long uid;
 
+    private byte status;
     private boolean online;
     private String username;
     private String nickname;
-    private String gravatarpicture;
+    private String avatar;
 
     public Contact(){}
 
@@ -20,15 +21,21 @@ public class Contact {
         this.nickname = nickname;
     }
 
-    public Contact(long uid, String username, String nickname, String gravatarpicture) {
+    public Contact(long uid, String username, String nickname, String avatar) {
         this.uid = uid;
         this.username = username;
         this.nickname = nickname;
-        this.gravatarpicture = gravatarpicture;
+        this.avatar = avatar;
     }
 
     public long getUid(){
         return this.uid;
+    }
+    public byte getStatus() {
+        return status;
+    }
+    public void setStatus(byte status) {
+        this.status = status;
     }
     public void setOnline(boolean online) {
         this.online = online;
@@ -48,18 +55,18 @@ public class Contact {
     public String getNickname(){
         return this.nickname;
     }
-    public void setGravatarpicture(String gravatarpicture){
-        this.gravatarpicture = gravatarpicture;
+    public void setAvatar(String avatar){
+        this.avatar = avatar;
     }
-    public String getGravatarpicture(){
-        return this.gravatarpicture;
+    public String getAvatar(){
+        return this.avatar;
     }
 
     public ContactRealmObj toRealmObj() {
         ContactRealmObj contactObj = new ContactRealmObj(this.getUid(),
                 this.getUsername(),
                 this.getNickname(),
-                this.getGravatarpicture());
+                this.getAvatar());
         return contactObj;
     }
 }

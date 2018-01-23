@@ -31,7 +31,7 @@ public class ContactViewHolder extends TreeNode.BaseNodeViewHolder<Contact> {
         TextView userNameLabel = (TextView) view.findViewById(R.id.contactname);
         userNameLabel.setText(value.getNickname());
 
-        presenter.onPresentWebImage(imageAvator,"http://storage.disneyfans.cn/" + value.getGravatarpicture(),55);
+        presenter.onPresentWebImage(imageAvator,"http://storage.disneyfans.cn/" + value.getAvatar(),55);
 
         return view;
     }

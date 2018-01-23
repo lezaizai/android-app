@@ -1,13 +1,9 @@
 package com.didlink.xingxing.models;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by wuh56 on 3/24/2017.
  */
 public class LoginAuth {
-    @PrimaryKey
     private long uid;
 
     private byte status;
@@ -94,6 +90,12 @@ public class LoginAuth {
         realmObj.setUsername(this.getUsername());
 
         return realmObj;
+    }
+
+    public Contact toContact() {
+        Contact contact = new Contact(this.getUid(), this.getUsername(), this.getNickname());
+        contact.setGravatarpicture(this.getAvatar());
+        return contact;
     }
 
     public String toString() {

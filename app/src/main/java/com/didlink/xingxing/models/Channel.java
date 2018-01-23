@@ -6,14 +6,11 @@ import java.util.Collections;
 import java.util.List;
 
 import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by xingxing on 2016/7/10.
  */
 public class Channel {
-    @PrimaryKey
     private String chid;
 
     private int type;
@@ -22,8 +19,9 @@ public class Channel {
     private String description;
     private Channel parent;
     private Contact owner;
-    private RealmList<Channel> children;
-    private RealmList<Contact> contacts;
+    private List<Channel> children;
+    private List<Contact> contacts;
+    private List<Topic> topics;
     private int contacts_num;
 
     public Channel(){}
@@ -32,8 +30,9 @@ public class Channel {
         this.chid = chid;
         this.type = type;
         this.name = name;
-        children = new RealmList<>();
-        contacts  = new RealmList<>();
+        children = new ArrayList<>();
+        contacts  = new ArrayList<>();
+        topics = new ArrayList<>();
     }
 
     public void setChid(String chid) {
@@ -191,6 +190,10 @@ public class Channel {
         return Collections.unmodifiableList(contacts);
     }
 
+    public void addTopic(Topic topic) {
+        this.topics.add(topic);
+    }
+
     public ChannelRealmObj toChannelRealmObj() {
         ChannelRealmObj channelObj = new ChannelRealmObj();
         channelObj.setChid(this.getChid());
@@ -198,14 +201,14 @@ public class Channel {
         channelObj.setStatus(this.getStatus());
         channelObj.setDescription(this.getDescription());
         channelObj.setParent(this.getParent().toChannelRealmObj());
-        channelObj.setOwner(this.getOwner().toContactRealmObj());
+        channelObj.setOwner(this.getOwner().toRealmObj());
 
         int childrens = this.getChildren().size();
         for (int i = 0; i < childrens; i++) {
             channelObj.addChild(this.getChildren().get(i).toChannelRealmObj());
         }
         for (int i = 0; i < this.contacts_num; i++) {
-            channelObj.addContact(this.getContacts().get(i).toContactRealmObj());
+            channelObj.addContact(this.getContacts().get(i).toRealmObj());
         }
         channelObj.setContacts_num(this.getContacts_num());
 

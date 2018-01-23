@@ -1,13 +1,10 @@
 package com.didlink.xingxing.models;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by xingxing on 2016/7/10.
  */
 public class Contact {
-    @PrimaryKey
     private long uid;
 
     private boolean online;
@@ -58,7 +55,7 @@ public class Contact {
         return this.gravatarpicture;
     }
 
-    public ContactRealmObj toContactRealmObj() {
+    public ContactRealmObj toRealmObj() {
         ContactRealmObj contactObj = new ContactRealmObj(this.getUid(),
                 this.getUsername(),
                 this.getNickname(),

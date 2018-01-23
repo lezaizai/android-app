@@ -9,9 +9,12 @@ import android.widget.EditText;
 
 import com.didlink.systembar.Base.BaseActivity;
 import com.didlink.systembar.Tools.StatusBarManager;
+import com.didlink.xingxing.AppSingleton;
 import com.didlink.xingxing.R;
 import com.didlink.xingxing.common.adapter.TextWatcherAdapter;
+import com.didlink.xingxing.config.Constants;
 import com.didlink.xingxing.models.Channel;
+import com.didlink.xingxing.service.RetrofitChannelService;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -187,6 +190,17 @@ public class AddGroupActivity extends BaseActivity {
                 mSearchButton.setTextColor(getResources().getColor(R.color.text_lgray));
                 mAddButton.setTextColor(getResources().getColor(R.color.text_lgray));
                 //mCtrlmessage.addChannel(mNameView.getText().toString(),AppSingleton.getInstance().getLoginAuth().getUid());
+
+                Channel channel = new Channel();
+                channel.setOwner(AppSingleton.getInstance().getLoginAuth().toContact());
+                channel.setName(mPreAddStr);
+                channel.setStatus(0);
+                channel.setType(1);
+
+                RetrofitChannelService.newChannel(Constants.HTTP_BASE_URL,
+                        AppSingleton.getInstance().getLoginAuth().getToken(),
+                        channel);
+
             }
         });
 

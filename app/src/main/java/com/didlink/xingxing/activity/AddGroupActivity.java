@@ -1,11 +1,13 @@
 package com.didlink.xingxing.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.didlink.systembar.Base.BaseActivity;
 import com.didlink.systembar.Tools.StatusBarManager;
@@ -21,6 +23,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.mikepenz.ionicons_typeface_library.Ionicons;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddGroupActivity extends BaseActivity {
@@ -197,7 +200,25 @@ public class AddGroupActivity extends BaseActivity {
                 channel.setStatus(0);
                 channel.setType(1);
 
-                RetrofitChannelService.newChannel(Constants.HTTP_BASE_URL,
+                RetrofitChannelService channelService = new RetrofitChannelService();
+                channelService.setChannelListener(new RetrofitChannelService.ChannelListener() {
+                    @Override
+                    public void OnChannelAdded(boolean result, Channel channel) {
+                        if (!result) {
+                            mSearchButton.setTextColor(getResources().getColor(R.color.colorGreen));
+                            Toast.makeText(getApplicationContext(), "add channel failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Intent intent = new Intent();
+                        intent.putExtra("channel", new ArrayList<>().add(channel));
+                        setResult(Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK, intent);
+                        finish();
+                    }
+                });
+
+                channelService.newChannel(Constants.HTTP_BASE_URL,
                         AppSingleton.getInstance().getLoginAuth().getToken(),
                         channel);
 

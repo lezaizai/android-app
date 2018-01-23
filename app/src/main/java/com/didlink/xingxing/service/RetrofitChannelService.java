@@ -34,6 +34,8 @@ public class RetrofitChannelService {
     public static final String AUTH_HEADER_NAME = "Authorization";
     public static final String AUTH_TOKEN_PREFIX = "Bearer ";
 
+    private ChannelListener channelListener;
+
     public static void main(String []args) throws Exception {
 
     }
@@ -49,9 +51,13 @@ public class RetrofitChannelService {
 
     }
 
-    public static ChannelService apiManager = null;
+    public interface ChannelListener {
+        public void OnChannelAdded(boolean result, Channel channel);
+    }
 
-    public static void newChannel(String baseurl,String token, Channel channel){
+    public ChannelService apiManager = null;
+
+    public void newChannel(String baseurl,String token, Channel channel){
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 //        httpClient.addInterceptor(new Interceptor() {
@@ -88,14 +94,25 @@ public class RetrofitChannelService {
             @Override
             public void onResponse(Call<Channel> call, retrofit2.Response<Channel> response) {
                 System.err.println("onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
+                if (channelListener != null) {
+                    channelListener.OnChannelAdded(true, response.body());
+                }
             }
 
             @Override
             public void onFailure(Call<Channel> call, Throwable t) {
                 System.err.println("onFailure() called with: " + "call = [" + call + "], t = [" + t + "]");
+                if (channelListener != null) {
+                    channelListener.OnChannelAdded(false, null);
+                }
+
             }
         });
 
+    }
+
+    public void setChannelListener(ChannelListener listener) {
+        this.channelListener = listener;
     }
 
 }

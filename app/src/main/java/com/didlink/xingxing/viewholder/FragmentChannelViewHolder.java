@@ -32,7 +32,7 @@ public class FragmentChannelViewHolder extends TreeNode.BaseNodeViewHolder<Chann
         userNameLabel.setText(value.getName());
 
         TextView connectionsLabel = (TextView) view.findViewById(R.id.ownername);
-        connectionsLabel.setText(value.getOwner().getNickname());
+        connectionsLabel.setText(value.getOwner()==null? "" : value.getOwner().getNickname());
 
         channel = value;
 

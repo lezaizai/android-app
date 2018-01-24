@@ -133,7 +133,7 @@ public class ChannelRealmObj extends RealmObject {
         return this;
     }
 
-    public List<ChannelRealmObj> getChildren() {
+    public RealmList<ChannelRealmObj> getChildren() {
         return children;
     }
 
@@ -186,8 +186,8 @@ public class ChannelRealmObj extends RealmObject {
         return 0;
     }
 
-    public List<ContactRealmObj> getContacts() {
-        return Collections.unmodifiableList(contacts);
+    public RealmList<ContactRealmObj> getContacts() {
+        return contacts;
     }
 
     public Channel toChannel() {

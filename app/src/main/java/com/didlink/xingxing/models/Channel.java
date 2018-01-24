@@ -187,7 +187,7 @@ public class Channel {
     }
 
     public List<Contact> getContacts() {
-        return Collections.unmodifiableList(contacts);
+        return contacts;
     }
 
     public void addTopic(Topic topic) {

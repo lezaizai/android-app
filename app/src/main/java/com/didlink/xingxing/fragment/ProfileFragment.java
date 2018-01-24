@@ -95,6 +95,9 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
     private View mView;
     private TextView mNickView;
     private TextView mLoginnameView;
+    private Button logoutButton;
+    private Button avatorButton;
+    private Button loginButton;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -139,6 +142,44 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        logoutButton = (Button) view.findViewById(R.id.profile_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
+                editor.commit();
+
+                if (mLogoutListener != null)
+                    mLogoutListener.onLogout();
+                refreshView();
+            }
+        });
+        avatorButton = (Button) view.findViewById(R.id.profile_avator);
+        avatorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                int requestCode = REQ_IMAGE_CROP;
+                AndroidImagePicker.getInstance().setSelectMode(AndroidImagePicker.Select_Mode.MODE_SINGLE);
+                AndroidImagePicker.getInstance().setShouldShowCamera(true);
+                intent.putExtra("isCrop", true);
+                intent.setClass(getActivity().getApplicationContext(),ImagesGridActivity.class);
+                startActivityForResult(intent, requestCode);
+            }
+        });
+        loginButton = (Button) view.findViewById(R.id.btn_login);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                startActivityForResult(intent, REQ_LOGIN);
+
+            }
+        });
+
 
         mView = view;
         refreshView();
@@ -259,36 +300,6 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
 
             AndroidImagePicker.getInstance().addOnImageCropCompleteListener(this);
 
-            Button logoutButton = (Button) view.findViewById(R.id.profile_logout);
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SharedPreferences mySharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mySharedPreferences.edit();
-                    editor.putBoolean(Constants.SHARED_PREFERENCE_KEY_IFLOGIN, false);
-                    editor.commit();
-
-                    getActivity().findViewById(R.id.profile_head).setVisibility(View.GONE);
-                    getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
-
-                    if (mLogoutListener != null)
-                        mLogoutListener.onLogout();
-                }
-            });
-            Button avatorButton = (Button) view.findViewById(R.id.profile_avator);
-            avatorButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent();
-                    int requestCode = REQ_IMAGE_CROP;
-                    AndroidImagePicker.getInstance().setSelectMode(AndroidImagePicker.Select_Mode.MODE_SINGLE);
-                    AndroidImagePicker.getInstance().setShouldShowCamera(true);
-                    intent.putExtra("isCrop", true);
-                    intent.setClass(getActivity().getApplicationContext(),ImagesGridActivity.class);
-                    startActivityForResult(intent, requestCode);
-                }
-            });
-
             mNickView = (TextView) view.findViewById(R.id.profile_text_nickname);
             mNickView.setText(AppSingleton.getInstance().getLoginAuth().getNickname());
             mLoginnameView = (TextView) view.findViewById(R.id.profile_text_loginname);
@@ -297,17 +308,7 @@ public class ProfileFragment extends Fragment implements AndroidImagePicker.OnPi
         } else {
             getActivity().findViewById(R.id.profile_head).setVisibility(View.GONE);
             getActivity().findViewById(R.id.profile_login).setVisibility(View.VISIBLE);
-
-            Button loginButton = (Button) view.findViewById(R.id.btn_login);
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
-                    startActivityForResult(intent, REQ_LOGIN);
-
-                }
-            });
-        }
+       }
 
     }
 

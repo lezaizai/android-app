@@ -22,13 +22,23 @@ public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPag
     private List<Fragment> fragments = new ArrayList<>();
     private String[] titles = {"微信", "通讯录", "发现", "我"};
     OnPageChangeListener pageChangeListener;
+    MapFragment mapFragment;
+    ChannelFragment channelFragment;
+    TextFragment textFragment;
+    ProfileFragment profileFragment;
+
 
     public MainAdapter(FragmentManager fm) {
         super(fm);
-        fragments.add(MapFragment.newInstance(titles[0]));
-        fragments.add(ChannelFragment.newInstance());
-        fragments.add(TextFragment.newInstance(titles[3]));
-        fragments.add(ProfileFragment.newInstance(titles[2],titles[2]));
+
+        mapFragment = MapFragment.newInstance(titles[0]);
+        channelFragment = ChannelFragment.newInstance();
+        textFragment = TextFragment.newInstance(titles[3]);
+        profileFragment = ProfileFragment.newInstance(titles[2],titles[2]);
+        fragments.add(mapFragment);
+        fragments.add(channelFragment);
+        fragments.add(textFragment);
+        fragments.add(profileFragment);
         //fragments.add(TextFragment.newInstance(titles[0]));
     }
 
@@ -66,6 +76,12 @@ public class MainAdapter extends FragmentPagerAdapter implements ViewPager.OnPag
 
     public void setPageChangeListener(OnPageChangeListener pageChangeListener) {
         this.pageChangeListener = pageChangeListener;
+    }
+
+    public void onFragmentAction(int position, int action) {
+        if ((position == 1) && (action == 1)) {
+            channelFragment.addChannelAction();
+        }
     }
 
     public interface OnPageChangeListener {

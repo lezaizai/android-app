@@ -211,6 +211,8 @@ public class AddGroupActivity extends BaseActivity {
                             return;
                         }
 
+                        AppSingleton.getInstance().getmRealmDBService().joinChannel(channel);
+
                         Intent intent = new Intent();
                         intent.putExtra("channel", new ArrayList<>().add(channel));
                         setResult(Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK, intent);

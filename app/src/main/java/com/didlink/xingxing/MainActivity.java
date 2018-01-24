@@ -29,6 +29,8 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
     private static final int REQ_ADDGROUP = 0;
     public static final String TAG = MainActivity.class.getName();
 
+    CustomViewPager mViewPger;
+    MainAdapter mainAdapter;
     private MenuItem menuItem;
     private TabbarsIndicator tabbarsIndicator;
 
@@ -56,8 +58,8 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
                 .setAlpha(0)
                 .create();
 
-        CustomViewPager mViewPger = (CustomViewPager) findViewById(R.id.mViewPager);
-        MainAdapter mainAdapter = new MainAdapter(getFragmentManager());
+        mViewPger = (CustomViewPager) findViewById(R.id.mViewPager);
+        mainAdapter = new MainAdapter(getFragmentManager());
         mViewPger.setAdapter(mainAdapter);
         mViewPger.addOnPageChangeListener(mainAdapter);
         mainAdapter.setPageChangeListener(this);
@@ -102,9 +104,11 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
         if ( R.id.menu_1 == item.getItemId()) {
             ToastTool.showNativeShortToast(this, "TEST");
 
-            Intent intent = new Intent(getApplicationContext(), AddGroupActivity.class);
-            intent.putExtra("profile", "publicHolder");
-            startActivityForResult(intent, REQ_ADDGROUP);
+            mainAdapter.onFragmentAction(1,1);
+
+           // Intent intent = new Intent(getApplicationContext(), AddGroupActivity.class);
+           // intent.putExtra("profile", "publicHolder");
+           // startActivityForResult(intent, REQ_ADDGROUP);
         }
         return true;
     }

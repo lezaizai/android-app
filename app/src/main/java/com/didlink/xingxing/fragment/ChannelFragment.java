@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import com.didlink.systembar.Tools.ToastTool;
 import com.didlink.xingxing.AppSingleton;
 import com.didlink.xingxing.R;
 import com.didlink.xingxing.activity.AddContactActivity;
@@ -221,6 +222,7 @@ public class ChannelFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ToastTool.showNativeShortToast(getContext(), "Come back!");
         if (Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK == resultCode ||
                 Constants.ACTIVITY_CHANNELADDCONTACT_RESULTOK== resultCode) {
             refreshChannelV();

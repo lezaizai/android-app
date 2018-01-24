@@ -134,7 +134,7 @@ public class ChannelRealmObj extends RealmObject {
     }
 
     public List<ChannelRealmObj> getChildren() {
-        return Collections.unmodifiableList(children);
+        return children;
     }
 
     public ChannelRealmObj addContact(ContactRealmObj contact) {
@@ -195,10 +195,10 @@ public class ChannelRealmObj extends RealmObject {
         channel.setChid(this.getChid());
         channel.setType(this.getType());
         channel.setStatus(this.getStatus());
-        channel.setParent(this.getParent().toChannel());
-        channel.setOwner(this.getOwner().toContact());
+        channel.setParent(this.getParent()==null ? null : this.getParent().toChannel());
+        channel.setOwner(this.getOwner()==null ? null : this.getOwner().toContact());
 
-        int childrens = this.getChildren().size();
+        int childrens = this.getChildren()==null ? 0 : this.getChildren().size();
         for (int i = 0; i < childrens; i++) {
             channel.addChild(this.getChildren().get(i).toChannel());
         }

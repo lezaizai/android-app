@@ -199,6 +199,7 @@ public class Channel {
         channelObj.setChid(this.getChid());
         channelObj.setType(this.getType());
         channelObj.setStatus(this.getStatus());
+        channelObj.setName(this.getName());
         channelObj.setDescription(this.getDescription());
         channelObj.setParent(this.getParent()==null? null : this.getParent().toChannelRealmObj());
         channelObj.setOwner(this.getOwner()==null? null : this.getOwner().toRealmObj());
@@ -213,5 +214,14 @@ public class Channel {
         channelObj.setContacts_num(this.getContacts_num());
 
         return channelObj;
+    }
+
+    public String toString() {
+        return "chid: " + chid + "\n" +
+                "type: " + type + "\n" +
+                "status: " + status + "\n" +
+                "name: " + name + "\n" +
+                "owner id: " + (getOwner() == null? "" : getOwner().getUid()) + "\n" +
+                "owner nickname: " + (getOwner() == null? "" : getOwner().getNickname());
     }
 }

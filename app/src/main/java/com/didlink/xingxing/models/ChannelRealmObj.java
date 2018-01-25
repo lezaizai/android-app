@@ -195,6 +195,8 @@ public class ChannelRealmObj extends RealmObject {
         channel.setChid(this.getChid());
         channel.setType(this.getType());
         channel.setStatus(this.getStatus());
+        channel.setName(this.getName());
+        channel.setDescription(this.getDescription());
         channel.setParent(this.getParent()==null ? null : this.getParent().toChannel());
         channel.setOwner(this.getOwner()==null ? null : this.getOwner().toContact());
 

@@ -241,8 +241,12 @@ public class ChannelFragment extends Fragment {
         List<Channel> channels = AppSingleton.getInstance().getmRealmDBService().getChannels();
         //root.getViewHolder().getNodeItemsView().removeAllViews();
         root = TreeNode.root();
+
         if (channels != null && channels.size() > 0) {
             for (Channel channel : channels) {
+
+                System.out.println(channel.toString());
+
                 FragmentChannelViewHolder vHolder = new FragmentChannelViewHolder(getContext());
                 vHolder.setOnPopActionListener(new FragmentChannelViewHolder.OnPopActionListener(){
                     @Override

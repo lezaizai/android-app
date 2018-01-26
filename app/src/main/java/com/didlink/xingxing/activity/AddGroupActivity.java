@@ -199,6 +199,7 @@ public class AddGroupActivity extends BaseActivity {
                 channel.setName(mPreAddStr);
                 channel.setStatus(0);
                 channel.setType(1);
+                channel.setContacts_num(1);
 
                 RetrofitChannelService channelService = new RetrofitChannelService();
                 channelService.setChannelListener(new RetrofitChannelService.ChannelListener() {

@@ -93,7 +93,7 @@ public class RetrofitChannelService {
         call.enqueue(new Callback<Channel>() {
             @Override
             public void onResponse(Call<Channel> call, retrofit2.Response<Channel> response) {
-                System.err.println("onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
+                System.err.println("onResponse() called with: " + "call = [" + call + "], response = [" + response.body() + "]");
                 if (channelListener != null) {
                     channelListener.OnChannelAdded(true, response.body());
                 }

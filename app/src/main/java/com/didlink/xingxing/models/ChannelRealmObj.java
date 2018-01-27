@@ -23,9 +23,15 @@ public class ChannelRealmObj extends RealmObject {
     private ContactRealmObj owner;
     private RealmList<ChannelRealmObj> children;
     private RealmList<ContactRealmObj> contacts;
+    private RealmList<TopicRealmObj> topics;
     private int contacts_num;
 
-    public ChannelRealmObj(){}
+    public ChannelRealmObj(){
+        children = new RealmList<>();
+        contacts  = new RealmList<>();
+        topics = new RealmList<>();
+        this.contacts_num = 0;
+    }
 
     public ChannelRealmObj(String chid, int type, String name) {
         this.chid = chid;
@@ -33,6 +39,8 @@ public class ChannelRealmObj extends RealmObject {
         this.name = name;
         children = new RealmList<>();
         contacts  = new RealmList<>();
+        topics = new RealmList<>();
+        this.contacts_num = 0;
     }
 
     public void setChid(String chid) {
@@ -139,11 +147,13 @@ public class ChannelRealmObj extends RealmObject {
 
     public ChannelRealmObj addContact(ContactRealmObj contact) {
         contacts.add(contact);
+        contacts_num++;
         return this;
     }
 
     public ChannelRealmObj addContact(int index, ContactRealmObj contact) {
         contacts.add(index, contact);
+        contacts_num++;
         return this;
     }
 
@@ -161,10 +171,19 @@ public class ChannelRealmObj extends RealmObject {
         return this;
     }
 
+    public RealmList<TopicRealmObj> getTopics() {
+        return topics;
+    }
+
+    public void addTopic(TopicRealmObj topic) {
+        this.topics.add(topic);
+    }
+
     public int deleteContact(Contact contact) {
         for (int i = 0; i < contacts.size(); i++) {
             if (contact.getUid() == contacts.get(i).getUid()) {
                 contacts.remove(i);
+                contacts_num--;
                 return i;
             }
         }
@@ -208,6 +227,10 @@ public class ChannelRealmObj extends RealmObject {
             channel.addContact(this.getContacts().get(i).toContact());
         }
         channel.setContacts_num(this.getContacts_num());
+        int tops = this.getTopics()==null ? 0 : this.getTopics().size();
+        for (int i = 0; i < tops; i++) {
+            channel.addTopic(this.getTopics().get(i).toTopic());
+        }
 
         return channel;
     }

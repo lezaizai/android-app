@@ -24,7 +24,11 @@ public class Channel {
     private List<Contact> contacts;
     private List<Topic> topics;
 
-    public Channel(){}
+    public Channel(){
+        children = new ArrayList<>();
+        contacts  = new ArrayList<>();
+        topics = new ArrayList<>();
+    }
 
     public Channel(String chid, int type, String name) {
         this.chid = chid;
@@ -139,11 +143,13 @@ public class Channel {
 
     public Channel addContact(Contact contact) {
         contacts.add(contact);
+        contacts_num++;
         return this;
     }
 
     public Channel addContact(int index, Contact contact) {
         contacts.add(index, contact);
+        contacts_num++;
         return this;
     }
 
@@ -165,10 +171,15 @@ public class Channel {
         for (int i = 0; i < contacts.size(); i++) {
             if (contact.getUid() == contacts.get(i).getUid()) {
                 contacts.remove(i);
+                contacts_num--;
                 return i;
             }
         }
         return -1;
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
     }
 
     public int freshChannel(Contact contact) {
@@ -212,16 +223,28 @@ public class Channel {
             channelObj.addContact(this.getContacts().get(i).toRealmObj());
         }
         channelObj.setContacts_num(this.getContacts_num());
+        int tops = this.getTopics()==null ? 0 : this.getTopics().size();
+        for (int i = 0; i < tops; i++) {
+            channelObj.addTopic(this.getTopics().get(i).toRealmObj());
+        }
 
         return channelObj;
     }
 
     public String toString() {
+        String contactsStr = "";
+        List<Contact> contacts = this.getContacts();
+        contactsStr += "contacts size:" + (contacts==null? 0 : contacts.size()) + "\n";
+        for (Contact c : contacts) {
+            contactsStr += "contact id: " + c.getUid() + "\n" +
+                            "contact nickname: " + c.getNickname();
+        }
         return "chid: " + chid + "\n" +
                 "type: " + type + "\n" +
                 "status: " + status + "\n" +
                 "name: " + name + "\n" +
                 "owner id: " + (getOwner() == null? "" : getOwner().getUid()) + "\n" +
-                "owner nickname: " + (getOwner() == null? "" : getOwner().getNickname());
+                "owner nickname: " + (getOwner() == null? "" : getOwner().getNickname()) + "\n" +
+                contactsStr;
     }
 }

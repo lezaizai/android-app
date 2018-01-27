@@ -17,13 +17,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:ico_icon="ion-chevron-right"
-        app:ico_color="@android:color/white"
-        app:ico_size="20dp" />
+        app:iiv_icon="ion-chevron-right"
+        app:iiv_color="@android:color/white"
+        app:iiv_size="20dp" />
 
     <com.mikepenz.iconics.view.IconicsImageView
-        app:ico_color="@color/text_lgray"
-        app:ico_size="20dp"
+        app:iiv_color="@color/text_lgray"
+        app:iiv_size="20dp"
         android:layout_centerVertical="true"
         android:textSize="13sp"
         android:layout_alignParentRight="true"
@@ -61,37 +61,37 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ico_icon="ion-star"
-                app:ico_color="@color/text_lgray"
-                app:ico_size="9dp" />
+                app:iiv_icon="ion-star"
+                app:iiv_color="@color/text_lgray"
+                app:iiv_size="9dp" />
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ico_icon="ion-star"
-                app:ico_color="@color/text_lgray"
-                app:ico_size="9dp" />
+                app:iiv_icon="ion-star"
+                app:iiv_color="@color/text_lgray"
+                app:iiv_size="9dp" />
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ico_icon="ion-star"
-                app:ico_color="@color/text_lgray"
-                app:ico_size="9dp" />
+                app:iiv_icon="ion-star"
+                app:iiv_color="@color/text_lgray"
+                app:iiv_size="9dp" />
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ico_icon="ion-star"
-                app:ico_color="@color/text_lgray"
-                app:ico_size="9dp" />
+                app:iiv_icon="ion-star"
+                app:iiv_color="@color/text_lgray"
+                app:iiv_size="9dp" />
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ico_icon="ion-android-star-outline"
-                app:ico_color="@color/text_lgray"
-                app:ico_size="9dp" />
+                app:iiv_icon="ion-android-star-outline"
+                app:iiv_color="@color/text_lgray"
+                app:iiv_size="9dp" />
 
 
         </LinearLayout>

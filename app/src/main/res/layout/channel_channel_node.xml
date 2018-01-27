@@ -17,9 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:ico_color="@android:color/white"
-        app:ico_icon="ion-chevron-right"
-        app:ico_size="20dp" />
+        app:iiv_color="@android:color/white"
+        app:iiv_icon="ion-chevron-right"
+        app:iiv_size="20dp" />
 
     <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/icon"
@@ -28,9 +28,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_color="@color/text_lgray"
-        app:ico_icon="ion-android-contacts"
-        app:ico_size="24dp" />
+        app:iiv_color="@color/text_lgray"
+        app:iiv_icon="ion-android-contacts"
+        app:iiv_size="24dp" />
 
         <LinearLayout
             android:id="@+id/size"

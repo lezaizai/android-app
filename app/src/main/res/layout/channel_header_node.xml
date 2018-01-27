@@ -15,9 +15,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_icon="ion-chevron-right"
-        app:ico_color="@color/text_gray"
-        app:ico_size="20dp" />
+        app:iiv_icon="ion-chevron-right"
+        app:iiv_color="@color/text_gray"
+        app:iiv_size="20dp" />
 
     <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/icon"
@@ -26,9 +26,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_color="@color/text_gray"
-        app:ico_icon="ion-document"
-        app:ico_size="24dp" />
+        app:iiv_color="@color/text_gray"
+        app:iiv_icon="ion-document"
+        app:iiv_size="24dp" />
 
     <TextView
         android:layout_centerVertical="true"
@@ -47,9 +47,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_size="24dp"
-        app:ico_color="#ff4444"
-        app:ico_icon="ion-close" />
+        app:iiv_size="24dp"
+        app:iiv_color="#ff4444"
+        app:iiv_icon="ion-close" />
 
     <com.mikepenz.iconics.view.IconicsImageView
         android:id="@+id/channel_social_add"
@@ -58,8 +58,8 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_size="24dp"
-        app:ico_color="#99cc00"
-        app:ico_icon="ion-plus" />
+        app:iiv_size="24dp"
+        app:iiv_color="#99cc00"
+        app:iiv_icon="ion-plus" />
 
 </RelativeLayout>

@@ -14,9 +14,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:layout_alignParentRight="true"
-            app:ico_size="28dp"
-            app:ico_color="@color/deepgrey"
-            app:ico_icon="ion-person-add" />
+            app:iiv_size="28dp"
+            app:iiv_color="@color/deepgrey"
+            app:iiv_icon="ion-person-add" />
 
         <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/view_group"
@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/add_contact"
-            app:ico_size="28dp"
-            app:ico_color="@color/deepgrey"
-            app:ico_icon="ion-ios-people" />
+            app:iiv_size="28dp"
+            app:iiv_color="@color/deepgrey"
+            app:iiv_icon="ion-ios-people" />
 
 </RelativeLayout>

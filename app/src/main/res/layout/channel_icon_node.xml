@@ -14,9 +14,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_icon="ion-chevron-right"
-        app:ico_color="#12558C"
-        app:ico_size="20dp" />
+        app:iiv_icon="ion-chevron-right"
+        app:iiv_color="#12558C"
+        app:iiv_size="20dp" />
 
     <com.mikepenz.iconics.view.IconicsImageView
         android:layout_alignWithParentIfMissing="true"
@@ -26,9 +26,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_icon="ion-email"
-        app:ico_color="#12558C"
-        app:ico_size="24dp" />
+        app:iiv_icon="ion-email"
+        app:iiv_color="#12558C"
+        app:iiv_size="24dp" />
 
     <TextView
         android:layout_centerVertical="true"
@@ -55,9 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            app:ico_size="20dp"
-            app:ico_color="#99cc00"
-            app:ico_icon="ion-plus" />
+            app:iiv_size="20dp"
+            app:iiv_color="#99cc00"
+            app:iiv_icon="ion-plus" />
 
 
         <com.mikepenz.iconics.view.IconicsImageView
@@ -65,8 +65,8 @@
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:ico_size="20dp"
-            app:ico_color="#ff4444"
-            app:ico_icon="ion-close" />
+            app:iiv_size="20dp"
+            app:iiv_color="#ff4444"
+            app:iiv_icon="ion-close" />
     </LinearLayout>
 </RelativeLayout>

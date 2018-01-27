@@ -14,8 +14,8 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_color="#0099cc"
-        app:ico_size="36dp" />
+        app:iiv_color="#0099cc"
+        app:iiv_size="36dp" />
 
     <TextView
         android:layout_centerVertical="true"
@@ -35,8 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
-        app:ico_size="28dp"
-        app:ico_color="@color/text_lgray"
-        app:ico_icon="ion-plus" />
+        app:iiv_size="28dp"
+        app:iiv_color="@color/text_lgray"
+        app:iiv_icon="ion-plus" />
 
 </RelativeLayout>

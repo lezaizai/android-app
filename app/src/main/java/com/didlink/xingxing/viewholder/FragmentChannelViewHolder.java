@@ -3,13 +3,16 @@ package com.didlink.xingxing.viewholder;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.didlink.xingxing.R;
 import com.didlink.xingxing.models.Channel;
 import com.lezaizai.atv.model.TreeNode;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.view.IconicsImageView;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 
 /**
  * Created by Bogdan Melnychuk on 2/13/15.
@@ -18,6 +21,7 @@ public class FragmentChannelViewHolder extends TreeNode.BaseNodeViewHolder<Chann
     private OnPopActionListener mActionListener;
     private Channel channel;
     private IconicsImageView show_pop;
+    private IconicsImageView arrowView;
 
     public FragmentChannelViewHolder(Context context) {
         super(context);
@@ -33,6 +37,7 @@ public class FragmentChannelViewHolder extends TreeNode.BaseNodeViewHolder<Chann
 
         TextView connectionsLabel = (TextView) view.findViewById(R.id.ownername);
         connectionsLabel.setText(value.getOwner()==null? "" : value.getOwner().getNickname());
+        arrowView = (IconicsImageView) view.findViewById(R.id.arrow_icon);
 
         channel = value;
 
@@ -51,6 +56,18 @@ public class FragmentChannelViewHolder extends TreeNode.BaseNodeViewHolder<Chann
 
     @Override
     public void toggle(boolean active) {
+        if (active) {
+            arrowView.setIcon(new IconicsDrawable(context)
+                    .icon(Ionicons.Icon.ion_arrow_down_b)
+                    .color(context.getResources().getColor(R.color.text_lgray))
+                    .sizeDp(20));
+        } else {
+            arrowView.setIcon(new IconicsDrawable(context)
+                    .icon(Ionicons.Icon.ion_arrow_right_b)
+                    .color(context.getResources().getColor(R.color.text_lgray))
+                    .sizeDp(20));
+        }
+
     }
 
     @Override

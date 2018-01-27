@@ -205,19 +205,21 @@ public class AddGroupActivity extends BaseActivity {
                 channelService.setChannelListener(new RetrofitChannelService.ChannelListener() {
                     @Override
                     public void OnChannelAdded(boolean result, Channel channel) {
+                        System.out.println("aaaaaaaaaaaaa");
                         if (!result) {
                             mSearchButton.setTextColor(getResources().getColor(R.color.colorGreen));
                             Toast.makeText(getApplicationContext(), "add channel failed.",
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
-
+System.out.println("bbbbbbbbbbbbb");
                         AppSingleton.getInstance().getmRealmDBService().joinChannel(channel);
 
                         Intent intent = new Intent();
                         intent.putExtra("channel", new ArrayList<>().add(channel));
                         setResult(Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK, intent);
                         finish();
+System.out.println("ccccccccccccccccccc");
                     }
                 });
 

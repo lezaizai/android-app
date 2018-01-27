@@ -16,9 +16,9 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:iiv_icon="ion-chevron-right"
-        app:iiv_color="@android:color/black"
-        android:visibility="invisible"
+        android:paddingRight="8dp"
+        app:iiv_icon="ion-arrow-right-b"
+        app:iiv_color="@color/text_lgray"
         app:iiv_size="20dp" />
 
     <com.mikepenz.iconics.view.IconicsImageView

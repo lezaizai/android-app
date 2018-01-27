@@ -104,11 +104,11 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
         if ( R.id.menu_1 == item.getItemId()) {
             ToastTool.showNativeShortToast(this, "TEST");
 
-            ((ChannelFragment)mainAdapter.getItem(1)).addChannelAction();
+            mainAdapter.onFragmentAction(1, 1);
 
-            Intent intent = new Intent(getApplicationContext(), AddGroupActivity.class);
-            intent.putExtra("profile", "publicHolder");
-            startActivityForResult(intent, REQ_ADDGROUP);
+//            Intent intent = new Intent(getApplicationContext(), AddGroupActivity.class);
+//            intent.putExtra("profile", "publicHolder");
+//            startActivityForResult(intent, REQ_ADDGROUP);
         }
         return true;
     }

@@ -2,6 +2,7 @@ package com.didlink.xingxing.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.app.Fragment;
@@ -31,6 +32,7 @@ import com.didlink.xingxing.viewholder.SocialActionHolder;
 import com.didlink.xingxing.viewholder.SocialViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.ionicons_typeface_library.Ionicons;
 
 import java.util.List;
@@ -280,11 +282,20 @@ public class ChannelFragment extends Fragment {
         titlePopup.setItemOnClickListener(onitemClick);
         // 给标题栏弹窗添加子类
         titlePopup.addAction(new ActionItem(getContext(), R.string.channel_pop_addcontact,
-                R.drawable.icon_menu_addfriend));
-        titlePopup.addAction(new ActionItem(getContext(), R.string.channel_pop_video,
-                R.drawable.ic_videocam_white));
+                new IconicsDrawable(getContext())
+                .icon(Ionicons.Icon.ion_ios_personadd)
+                .color(Color.WHITE)
+                .sizeDp(18)));
+        titlePopup.addAction(new ActionItem(getContext(), R.string.channel_pop_audio,
+                new IconicsDrawable(getContext())
+                        .icon(Ionicons.Icon.ion_speakerphone)
+                        .color(Color.WHITE)
+                        .sizeDp(18)));
         titlePopup.addAction(new ActionItem(getContext(), R.string.channel_pop_exitchannel,
-                R.drawable.ic_delete_white));
+                new IconicsDrawable(getContext())
+                        .icon(Ionicons.Icon.ion_scissors)
+                        .color(Color.WHITE)
+                        .sizeDp(18)));
     }
 
     private TitlePopup.OnItemOnClickListener onitemClick = new TitlePopup.OnItemOnClickListener() {

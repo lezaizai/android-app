@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Interceptor;
@@ -24,11 +25,13 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 
 public class RetrofitChannelService {
     public static final String AUTH_HEADER_NAME = "Authorization";
@@ -49,10 +52,15 @@ public class RetrofitChannelService {
         Call<Channel> addChannel(@Header(AUTH_HEADER_NAME) String token,
                                  @Body Channel body);
 
+         @GET("/rest/api/channel/getSimpleList")
+         Call<List<Channel>> getSimpleList(@Header(AUTH_HEADER_NAME) String token,
+                                  @Query("name") String name);
+
     }
 
     public interface ChannelListener {
-        public void OnChannelAdded(boolean result, Channel channel);
+         public void OnChannelAdded(boolean result, Channel channel);
+         public void OnSimpleList(boolean result, List<Channel> channels);
     }
 
     public ChannelService apiManager = null;
@@ -101,6 +109,46 @@ public class RetrofitChannelService {
 
             @Override
             public void onFailure(Call<Channel> call, Throwable t) {
+                System.err.println("onFailure() called with: " + "call = [" + call + "], t = [" + t + "]");
+                if (channelListener != null) {
+                    channelListener.OnChannelAdded(false, null);
+                }
+
+            }
+        });
+
+    }
+
+    public void getSimpleList(String baseurl,String token, String name){
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        OkHttpClient client = httpClient.build();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit sRetrofit = new Retrofit .Builder()
+                .baseUrl(baseurl)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+
+        apiManager = sRetrofit.create(ChannelService.class);
+
+
+        Call<List<Channel>> call = apiManager.getSimpleList(AUTH_TOKEN_PREFIX + token, name);
+        call.enqueue(new Callback<List<Channel>>() {
+            @Override
+            public void onResponse(Call<List<Channel>> call, retrofit2.Response<List<Channel>> response) {
+                System.err.println("onResponse() called with: " + "call = [" + call + "], response = [" + response.body().size() + "]");
+                if (channelListener != null) {
+                    channelListener.OnSimpleList(true, response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Channel>> call, Throwable t) {
                 System.err.println("onFailure() called with: " + "call = [" + call + "], t = [" + t + "]");
                 if (channelListener != null) {
                     channelListener.OnChannelAdded(false, null);

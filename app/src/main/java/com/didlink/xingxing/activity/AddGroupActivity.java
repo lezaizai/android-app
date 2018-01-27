@@ -17,6 +17,7 @@ import com.didlink.xingxing.common.adapter.TextWatcherAdapter;
 import com.didlink.xingxing.config.Constants;
 import com.didlink.xingxing.models.Channel;
 import com.didlink.xingxing.service.RetrofitChannelService;
+import com.didlink.xingxing.viewholder.ChannelViewHolder;
 import com.lezaizai.atv.model.TreeNode;
 import com.lezaizai.atv.view.AndroidTreeView;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -40,6 +41,7 @@ public class AddGroupActivity extends BaseActivity {
     private String mPreSearchStr;
     private String mPreAddStr;
     private boolean longpressing;
+    RetrofitChannelService channelService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +164,65 @@ public class AddGroupActivity extends BaseActivity {
 
         });
 */
+        RetrofitChannelService.ChannelListener channelServiceListener = new RetrofitChannelService.ChannelListener() {
+            @Override
+            public void OnChannelAdded(boolean result, Channel channel) {
+                if (!result) {
+                    mSearchButton.setTextColor(getResources().getColor(R.color.colorGreen));
+                    Toast.makeText(getApplicationContext(), "add channel failed.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                AppSingleton.getInstance().getmRealmDBService().joinChannel(channel);
+
+                Intent intent = new Intent();
+                intent.putExtra("channel", new ArrayList<>().add(channel));
+                setResult(Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK, intent);
+                finish();
+
+            }
+
+            @Override
+            public void OnSimpleList(boolean result, List<Channel> channels) {
+                mAddButton.setTextColor(getResources().getColor(R.color.colorGreen));
+                for (int i=0; i<channels.size(); i++) {
+                    TreeNode ChannelV = new TreeNode(channels.get(i)).setViewHolder(new ChannelViewHolder(getApplicationContext()));
+                    ChannelV.setLongClickListener(new TreeNode.TreeNodeLongClickListener(){
+                        @Override
+                        public boolean onLongClick(TreeNode node, Object value) {
+                            if (longpressing) return true;
+                            else longpressing = true;
+
+                            Channel channel = (Channel)value;
+//                            mCtrlmessage.joinChannel(channel.getChid(), app.getUserid());
+//                                    if (!SDBService.joinChannel(getApplicationContext(), (Channel)value)) {
+//                                        Toast.makeText(getApplicationContext(), "join channel failed.",
+//                                                Toast.LENGTH_SHORT).show();
+//                                        return false;
+//                                    }
+//
+//                                    app.addChannel((Channel)value);
+//
+//                                    Intent intent = new Intent();
+//                                    intent.putExtra("name", mNameView.getText().toString());
+//                                    //intent.putExtra("chid", chid);
+//                                    //intent.put("contacts", members);
+//                                    setResult(Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK, intent);
+//                                    finish();
+
+                            return true;
+                        };
+                    });
+                    root.addChildren(ChannelV);
+                }
+
+                if (channels.size()>0) {
+                    containerView.addView(tView.getView());
+                }
+
+            }
+        };
+
         mNameView = (EditText) findViewById(R.id.channel_nameinput);
         mAddButton = (IconicsTextView) findViewById(R.id.addgroup_ok);
         mSearchButton = (IconicsTextView) findViewById(R.id.addgroup_search);
@@ -178,6 +239,9 @@ public class AddGroupActivity extends BaseActivity {
             }
 
         });
+
+        channelService = new RetrofitChannelService();
+        channelService.setChannelListener(channelServiceListener);
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,25 +264,6 @@ public class AddGroupActivity extends BaseActivity {
                 channel.setStatus(0);
                 channel.setType(1);
                 channel.setContacts_num(1);
-
-                RetrofitChannelService channelService = new RetrofitChannelService();
-                channelService.setChannelListener(new RetrofitChannelService.ChannelListener() {
-                    @Override
-                    public void OnChannelAdded(boolean result, Channel channel) {
-                        if (!result) {
-                            mSearchButton.setTextColor(getResources().getColor(R.color.colorGreen));
-                            Toast.makeText(getApplicationContext(), "add channel failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        AppSingleton.getInstance().getmRealmDBService().joinChannel(channel);
-
-                        Intent intent = new Intent();
-                        intent.putExtra("channel", new ArrayList<>().add(channel));
-                        setResult(Constants.ACTIVITY_CHANNELADDGROUP_RESULTOK, intent);
-                        finish();
-                    }
-                });
 
                 channelService.newChannel(Constants.HTTP_BASE_URL,
                         AppSingleton.getInstance().getLoginAuth().getToken(),
@@ -247,7 +292,11 @@ public class AddGroupActivity extends BaseActivity {
                     containerView.removeAllViews();
                     //titleBar.setTitle(getResources().getString(R.string.title_addgrp));
                 }
-                //mCtrlmessage.searchChannel(mNameView.getText().toString(),app.getUserid());
+
+                channelService.getSimpleList(Constants.HTTP_BASE_URL,
+                        AppSingleton.getInstance().getLoginAuth().getToken(),
+                        mPreSearchStr);
+
             }
         });
 

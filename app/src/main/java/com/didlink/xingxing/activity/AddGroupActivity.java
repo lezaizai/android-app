@@ -195,6 +195,7 @@ public class AddGroupActivity extends BaseActivity {
 
                             Channel channel = (Channel)value;
 
+                            System.out.println("try to join channel: " + channel.getName());
 //                            mCtrlmessage.joinChannel(channel.getChid(), app.getUserid());
 //                                    if (!SDBService.joinChannel(getApplicationContext(), (Channel)value)) {
 //                                        Toast.makeText(getApplicationContext(), "join channel failed.",

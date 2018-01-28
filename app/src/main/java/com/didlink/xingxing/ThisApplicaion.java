@@ -33,4 +33,9 @@ public class ThisApplicaion extends Application {
 
         Log.i(TAG, " started. " + auth.toString());
     }
+
+    @Override
+    public void onTerminate() {
+       super.onTerminate();
+    }
 }

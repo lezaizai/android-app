@@ -2,6 +2,7 @@ package com.didlink.xingxing;
 
 import android.content.Context;
 
+import com.didlink.PpService;
 import com.didlink.tabbarlib.TabbarsIndicator;
 import com.didlink.xingxing.mediacontent.data.ContentDataLoadTask;
 import com.didlink.xingxing.models.LoginAuth;

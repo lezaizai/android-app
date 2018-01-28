@@ -3,6 +3,8 @@ package com.didlink.xingxing.config;
 public class Constants {
     public static final String CHAT_SERVER_URL = "http://192.168.1.103:3000";
     public static final String HTTP_BASE_URL = "http://10.0.2.2:5946";
+    public static final String PP_SERVICE_HOST = "10.0.2.2";
+    public static final int PP_SERVICE_PORT = 7366;
     public static final int SPOTCODE_DEFAULT = 0;
     public static final int SPOTCODE_STATION = 1;
 

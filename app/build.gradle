@@ -50,6 +50,7 @@ dependencies {
     implementation project(':imagepickerModule')
     implementation project(':TVlibrary')
     implementation 'com.android.support:design:27.0.2'
+    implementation 'com.google.guava:guava:18.0'
 }
 
 configurations.all {

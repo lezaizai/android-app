@@ -20,6 +20,7 @@ import com.didlink.tabbarlib.TabbarsIndicator;
 import com.didlink.xingxing.activity.AddGroupActivity;
 import com.didlink.xingxing.fragment.ChannelFragment;
 import com.didlink.xingxing.fragment.ProfileFragment;
+import com.didlink.xingxing.ppservice.PpService;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.ionicons_typeface_library.Ionicons;
 
@@ -71,6 +72,9 @@ public class MainActivity extends BaseActivity implements ChannelFragment.OnFrag
         tabbarsIndicator.getTabView(2).showNumber(88);
         tabbarsIndicator.getTabView(3).showPoint();
 
+        Intent intent = new Intent(MainActivity.this,
+                PpService.class);
+        startService(intent);
         //startLoadData();
         Log.d(TAG, "Main Activity started!");
     }
